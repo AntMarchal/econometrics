@@ -1,6 +1,7 @@
 #Exercise 2
 install.packages("moments")
 library(moments)
+set.seed(420)
 #2.b
 x <- seq(0, 7, 0.01)
 exp1 <- dexp(x,1)
@@ -37,9 +38,10 @@ lines(xfit, yfit, col="black", lwd=3)
 #Exercise3
 
 #3.a, 3.b
-##relative path files
-dataSP <- read.csv("C:\\Users\\Ivan\\Desktop\\MA1\\Econometrics\\HW_scripts\\Assignement1\\^GSPC.csv")
-dataAAPL <-read.csv("C:\\Users\\Ivan\\Desktop\\MA1\\Econometrics\\HW_scripts\\Assignement1\\AAPL.csv")
+#Assuming the data files are directly in the working directory, other set the path manually
+dataSP <- read.csv("^GSPC.csv")
+dataAAPL <- read.csv("AAPL.csv")
+
 data <- dataSP[,c(1,6)]
 names(data)[2]<-paste("Adj.CloseGSPC")
 data$Adj.CloseAAPL <- dataAAPL$Adj.Close
