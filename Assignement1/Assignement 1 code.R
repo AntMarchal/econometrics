@@ -4,8 +4,8 @@ install.packages("moments")
 library(moments)
 library(rstudioapi)
 current_path <- getActiveDocumentContext()$path 
-# The next line set the working directory to the relevant one:
-# Assuming you opened the script from the folder we gave you
+# The next line set the working directory to the relevant one,
+# assuming you opened the script from the folder we gave you
 setwd(dirname(current_path ))
 set.seed(420)
 
