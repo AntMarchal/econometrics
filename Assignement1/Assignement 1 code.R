@@ -1,7 +1,14 @@
 #Exercise 2
+install.packages("rstudioapi")
 install.packages("moments")
 library(moments)
+library(rstudioapi)
+current_path <- getActiveDocumentContext()$path 
+# The next line set the working directory to the relevant one:
+# Assuming you opened the script from the folder we gave you
+setwd(dirname(current_path ))
 set.seed(420)
+
 #2.b
 x <- seq(0, 7, 0.01)
 exp1 <- dexp(x,1)
@@ -13,7 +20,6 @@ lines(x, exp1, col="dark red",type="l")
 
 #2.c
 x <- rexp(1000,1)
-
 h<-hist(x, breaks=50,col="blue", main="Histogram vs Theoretical Exponential",xlab="Values") 
 xfit<-seq(min(x),max(x),length=40) 
 yfit<-dexp(xfit,1) 
@@ -21,7 +27,6 @@ yfit <- yfit*diff(h$mids[1:2])*length(x)
 lines(xfit, yfit, col="black", lwd=3, type="l")
 
 #2.d
-
 result_vect <- c()
 for(i in 1:2000){
   x_k <- rexp(1000,2)
@@ -38,7 +43,7 @@ lines(xfit, yfit, col="black", lwd=3)
 #Exercise3
 
 #3.a, 3.b
-#Assuming the data files are directly in the working directory, other set the path manually
+#Assuming the data files are directly in the working directory, otherwise set the path manually
 dataSP <- read.csv("^GSPC.csv")
 dataAAPL <- read.csv("AAPL.csv")
 
@@ -52,7 +57,7 @@ data$Adj.CloseAAPL <- data$Adj.CloseAAPL/data[1,3]*100
 plot(data$Adj.CloseAAPL, type="l", col="black",ylab="Normalized Return",xlab="Open Market Days",main="Adjusted Close Prices Renormalized")
 lines(data$Adj.CloseGSPC, col="red",type="l")
 ##then click to put labels
-text(locator(), labels = c("APPL", "S&P500"))
+##text(locator(), labels = c("APPL", "S&P500"))
 
 #3.d
 returnAAPL <- c()
