@@ -31,7 +31,7 @@ print(cbind(Y,x_1,x_2)) # Print the 20 observations of y, x1,x2
 ## Question b
 # Estimation of Beta
 est_B <- matrix(0,1,3)
-est_B <- solve(t(X)%*%X)%*%t(X)%*%Y
+est_B<-solve(t(X)%*%X)%*%t(X)%*%Y
 print(est_B)
 
 ## Question c
