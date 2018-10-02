@@ -1,0 +1,53 @@
+---
+title: "Econometrics AS3"
+output: html_notebook
+---
+
+```{r}
+X1=rnorm(1000,mean=0, sd= 4)
+eps=matrix(rnorm(1000,mean=0,sd=1/2),c(1000,1))
+Y=0.5*matrix(replicate(1000,1),c(1000,1))+1.4*X1+eps
+X=cbind(replicate(1000,1),X1)
+
+message('head(X)=')
+head(X)
+
+message('\nhead(Y)=')
+head(Y)
+
+message('\nhead(eps)=')
+head(eps)
+
+hatAlphas=replicate(1000,1) # We create a hatAlphas list
+hatBetas=replicate(1000,1)
+
+for (i in 1:1000){
+  sample_i=sample(1:1000,100, replace = TRUE)
+  sample_i
+  X_i=X[sample_i,1:2]
+  Y_i=Y[sample_i,1]
+  X_i
+  Y_i
+  OLSestimators=solve(t(X_i)%*%X_i)%*%t(X_i)%*%Y_i
+  hatAlphas[i]=OLSestimators[1]
+  hatBetas[i]=OLSestimators[2]
+}
+
+message('\nhead(hatAlphas)=')
+head(hatAlphas)
+
+message('\nhead(hatBetas)=')
+head(hatBetas)
+
+hist(hatAlphas,
+     main = 'Histogram of the estimates of alpha',
+     xlab = 'alpha hat')
+hist(hatBetas,
+     main = 'Histogram of the estimates of beta',
+     xlab='beta hat')
+
+
+
+```
+
+We can see that the two plots are centered around the real values of alpha and beta. This is because the ols estimators are unbiased.
