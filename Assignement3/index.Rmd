@@ -60,8 +60,10 @@ head(df)
 
 CONS=1e6*df$GASEXP/df$GASP/df$POP
 df$CONS=CONS
+```
 
-
+# Plots
+```{r}
 png(filename="./ex5-1-1.png", units="in", width=5, height=8, res=300)
 par(mfrow=c(3,1))
 
@@ -138,3 +140,44 @@ dev.off()
 
 
 ```
+
+# Compute the parameter estimates using R's lm:
+```{r}
+model=lm(df$CONS~1+df$INCOME+df$GASP+df$PNC+df$PUC+df$PPT+df$PD+df$PN+df$PS+df$YEAR)
+summary(model)
+```
+
+
+# Compute the parameter estimates without any models:
+```{r}
+X=cbind(matrix(replicate(52,1),c(52,1)),df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PD,df$PN,df$PS,df$YEAR)
+
+message('head(X)=')
+head(X)
+
+Y=matrix(df$CONS,c(52,1))
+message('\nhead(Y)=')
+head(Y)
+
+betaHat=solve(t(X)%*%X)%*%t(X)%*%Y
+message('\nbeta hat=')
+betaHat
+df1=data.frame('type'='manual','intercept'=betaHat[1],'per_capita_disposable_income'=betaHat[2],'price of gas'=betaHat[3],'price of new cars'=betaHat[4],'price of used cars'=betaHat[5],'price of public transportation'=betaHat[6],'price for consumer durables'=betaHat[7], 'price of consumer nondurables'=betaHat[8],'price of consumer services'=betaHat[9],'time trend'=betaHat[10])
+df2=data.frame('type'='package','intercept'=model$coefficients[1],'per_capita_disposable_income'=model$coefficients[2],'price of gas'=model$coefficients[3],'price of new cars'=model$coefficients[4],'price of used cars'=model$coefficients[5],'price of public transportation'=model$coefficients[6],'price for consumer durables'=model$coefficients[7], 'price of consumer nondurables'=model$coefficients[8],'price of consumer services'=model$coefficients[9],'time trend'=model$coefficients[10])
+rbind(df1,df2)
+```
+
+We can observe that the parameter estimates computed by the package are exactly the same as those computed without the package.
+
+
+
+# c) compare the signs of the estimates with your expectations
+We can see that the income coefficient is positive. This is to be expected because as the economy rises, people make more money and they tend to spend more on gas.
+We can observe that the gas price coefficient is negative. This is to be expected because the higher the price of the gas is, the less people are going to want to buy it.
+The price index of new cars coefficient is positive. This is surprising at first, because we would tend to think that if the cars are more expensive, people would buy less cars and therefore use less gas, but if people buy less new cars, they use old cars which consume more gas. The result is reasonable.
+Following the thoughts on new cars price, if used cars are cheaper people are going to buy used cars, which consume more so the consumption will rise. This explains a negative coefficient for the price of used cars.
+The coefficient for the price of public transportation is positive. This is to be expected, because, the more expensive the public transportation, the less people use it and the more they use their own cars and consume gas.
+The agregate price for consumer durables coefficient is positive. This is to be expected because cars are consumer durables, so the more expensive the cars, the older the cars on the road, so the more gas consumed.
+The agregate price for consumer nondurables coefficient is positive. This is very counter intuitive, because if the prices of all consumer nondurables rise, people having the same income should spend the same amount for priority goods and a lower amount for non-priority goods, but in no case should the people spend more gas if the consumer nondurables price rises.
+Following this idea, we can say that it is intuitive that the coefficient of the consumer services price is positive.
+Finally it is intuitive that the time trend coefficient is positive. With the economic grouth, people tend to have more cars so to consume more gas. However, one could argue that modern cars consume less gas, so the coefficient could be negative.
