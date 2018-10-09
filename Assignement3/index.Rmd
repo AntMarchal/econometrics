@@ -1,7 +1,12 @@
 ---
-title: "Econometrics AS3"
+title: "Econometrics AS3 - BRODARD Lionel, MARCHAL Antoine, GIRO LARRAZ Tomas and SCHONENBERGER Ivan"
 output: html_notebook
 ---
+
+
+Please run the whole project with *CTRL.+Alt+R* or Run All.
+
+
 # Exercise 4
 ```{r}
 X1=rnorm(1000,mean=0, sd= 4)
@@ -39,10 +44,13 @@ head(hatAlphas)
 message('\nhead(hatBetas)=')
 head(hatBetas)
 
+
 hist(hatAlphas,
+     freq = F,
      main = 'Histogram of the estimates of alpha',
      xlab = 'alpha hat')
 hist(hatBetas,
+     freq=F,
      main = 'Histogram of the estimates of beta',
      xlab='beta hat')
 
@@ -50,7 +58,7 @@ hist(hatBetas,
 
 ```
 
-We can see that the two plots are centered around the real values of alpha and beta. This is because the ols estimators are unbiased.
+We can see that the two plots are centered around the real values of alpha and beta. This is because the OLS estimators are unbiased.
 
 # Exercise 5: U.S. gasoline market
 ```{r}
@@ -64,8 +72,6 @@ df$CONS=CONS
 
 # Plots
 ```{r}
-png(filename="./ex5-1-1.png", units="in", width=5, height=8, res=300)
-par(mfrow=c(3,1))
 
 plot(df$YEAR,
      df$CONS,
@@ -83,10 +89,9 @@ plot(df$POP,
      ylab='Consumption per capita',
      xlab='total U.S. population')
 
-dev.off()
 
-png(filename="./ex5-1-2.png", units="in", width=5, height=8, res=300)
-par(mfrow=c(3,1))
+
+
 
 plot(df$GASP,
      df$CONS,
@@ -103,10 +108,8 @@ plot(df$PNC,
      main = 'Plot of the consumption per capita as a function\n of the price index of new cars',
      ylab='Consumption per capita',
      xlab='price index of new cars')
-dev.off()
 
-png(filename="./ex5-1-3.png", units="in", width=5, height=8, res=300)
-par(mfrow=c(3,1))
+
 plot(df$PUC,
      df$CONS,
      main= 'Plot of the consumption per capita as a function\n of the price index of used cars',
@@ -122,10 +125,8 @@ plot(df$PD,
      main='Plot of the consumption per capita as a function\n of agregate price index for consumer durables',
      ylab='Consumption per capita',
      xlab='agregate price for consumer durables')
-dev.off()
 
-png(filename="./ex5-1-4.png", units="in", width=5, height=8, res=300)
-par(mfrow=c(3,1))
+
 plot(df$PN,
      df$CONS,
      main='Plot of the consumption per capita as a function\n of agregate price index for consumer nondurables',
@@ -136,7 +137,7 @@ plot(df$PS,
      main='Plot of the consumption per capita as a function\n of agregate price index for consumer services',
      ylab='Consumption per capita',
      xlab='agregate price index for consumer services')
-dev.off()
+
 
 
 ```
@@ -164,7 +165,10 @@ message('\nbeta hat=')
 betaHat
 df1=data.frame('type'='manual','intercept'=betaHat[1],'per_capita_disposable_income'=betaHat[2],'price of gas'=betaHat[3],'price of new cars'=betaHat[4],'price of used cars'=betaHat[5],'price of public transportation'=betaHat[6],'price for consumer durables'=betaHat[7], 'price of consumer nondurables'=betaHat[8],'price of consumer services'=betaHat[9],'time trend'=betaHat[10])
 df2=data.frame('type'='package','intercept'=model$coefficients[1],'per_capita_disposable_income'=model$coefficients[2],'price of gas'=model$coefficients[3],'price of new cars'=model$coefficients[4],'price of used cars'=model$coefficients[5],'price of public transportation'=model$coefficients[6],'price for consumer durables'=model$coefficients[7], 'price of consumer nondurables'=model$coefficients[8],'price of consumer services'=model$coefficients[9],'time trend'=model$coefficients[10])
+
 rbind(df1,df2)
+
+
 ```
 
 We can observe that the parameter estimates computed by the package are exactly the same as those computed without the package.
