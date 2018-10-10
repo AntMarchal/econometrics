@@ -1,0 +1,95 @@
+---
+title: "Econometrics Assignement 4- Brodard Lionel, Giro Tomas, Marchal Antoine, Schonenberger Ivan"
+output: 
+  html_notebook: default
+---
+
+
+------->  Please run this code with ' Run all' of *Ctrl+Alt+R*
+
+
+# Exercice 5
+# Question a) Using all observations, compute the estimates of the parameters in the estimating equation, estimate the asymptotic covariance matrix, and provide the asymptotic standard errors of the parameter estimates. Program your own estimation procedure and compare the results with an off-the-shelve package/function.
+
+```{r}
+# Importation of Data
+df <- read.csv('./Electricity_Generation_Cost.csv')
+# Computation of Estimating Equation Variables
+df$logCOST_PF<-log(df$COST/df$PF) # log(Total cost/Fuel price)
+df$logq <- (log(df$Q)) # log(Total Output)
+df$logq2 <- 0.5*(log(df$Q)^2) #1/2* log(Total Output)^0.5
+df$logPK_PF<-log(df$PK/df$PF)  #log(Capital price index/Fuel price)
+df$logPL_PF<-log(df$PL/df$PF) #log(Wage rate/Fuel price)
+
+# Number of Observation by variable
+n<-length(df$logPK_PF)
+
+#### Estimation of parameters, their covariance matrix and their standard errors.
+# Matrix of X and Y
+X <- cbind(replicate(n,1),df$logq,df$logq2,df$logPK_PF,df$logPL_PF) #We create a matrix with the variable of interest
+Y <- cbind(df$logCOST_PF)
+
+# Estimated parameters
+Beta_hat <- solve(t(X)%*%X)%*%t(X)%*%Y #parameters estimated with our own procedure
+
+reg <- lm(Y~X[,2:5]) 
+Beta_hat_ofs <- cbind(summary(reg)$coef[,1]) #parameters estimated using an off-the-shelve package
+
+# Residuals
+e <- Y-X%*%Beta_hat # computation of residuals
+ee <- (t(e)%*%e) # sum of squared residuals
+
+# Number of regressors
+k<-nrow(Beta_hat) 
+
+# Estimated asymsoptical covariances
+covB <-ee[1]/(n-k)*solve(t(X)%*%X) # estimated asymptotical covariance matrix using our own procedure
+covB_ofs <- vcov(reg) # estimated asymptotical covariance matrix using an off-the-shelve package
+
+# Estimated standard errors of the parameter estimates
+sdB <- cbind(sqrt(diag(covB))) # estimated standard errors using our own procedure
+sdB_ofs <- cbind(summary(reg)$coef[,2]) # estimated standard errors using an off-the-shelve package
+
+
+message('Estimated Coefficient - Own Procedure=')
+round(Beta_hat,3)
+message('Estimated Coefficient - Off-the-Shelve Package=')
+round(Beta_hat_ofs,3)
+
+message('Estimated Covariance Matrix - Own Procedure=')
+round(covB,3)
+message('Estimated Covariance Matrix - Off-the-Shelve Package=')
+round(covB_ofs,3)
+
+message('Estimated Standard Errors - Own Procedure=')
+round(sdB,3)
+message('Estimated Standard Errors - Off-the-Shelve Package=')
+round(sdB_ofs,3)
+```
+
+
+# The estimating equation doesnt provide a direct estimate of delta_f . Compute this estimate and provide the asymptotic standard error.
+```{r}
+##### delta_f is a linear combination of delta_l and delta_k
+### delta_f = 1 - delta_l - delta_k
+## delta_k moments
+lambda_k_mean<-Beta_hat[4]
+lambda_k_var<-covB[4,4]
+
+## delta_l moments
+lambda_l_mean<-Beta_hat[5]
+lambda_l_var<-covB[5,5]
+
+## Covariance matrix between delta_l and delta_k
+lambda_lk_cov<-covB[4,5]
+
+# delta_f estimated elements
+lambda_f_mean<-1-lambda_k_mean-lambda_l_mean
+lambda_f_var<-lambda_k_var+lambda_l_var+2*lambda_lk_cov
+lambda_f_sd<-sqrt(lambda_f_var)
+message('delta_f - Mean=')
+lambda_f_mean
+message('delta_f - Standard Error=')
+lambda_f_sd
+
+```
