@@ -1,0 +1,68 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# generating the values
+```{r}
+X=runif(100000,0,1)
+eps=rexp(100000,1)
+alpha=0.5
+beta=2
+Y=alpha+beta*X+eps
+  
+generate= function(X,Y){
+  random=sample(1:100000,10000, replace = TRUE)
+  X=X[random]
+  Y=Y[random]
+  betaHat=(X-mean(X))%*%(Y-mean(Y))/((X-mean(X))%*%(X-mean(X)))
+  alphaHat=mean(Y)-betaHat*mean(X)
+  return(c(alphaHat,betaHat))
+}
+# x[1, ] contains the alphaHats and x[2, ] contains the betaHats
+x=replicate(10000,generate(X,Y))
+```
+
+
+
+# plotting the values
+```{r}
+library(MASS)
+fitalpha <- fitdistr(x[1,], "normal")
+hist(x[1,],
+     main = 'Density of alpha hat',
+     xlab='alpha hat',
+     freq=FALSE, 
+     breaks=50,
+     sub=paste('fitted gaussian: mean',
+               round(fitalpha$estimate[1],5),
+                     ' and sd: ',
+               round(fitalpha$estimate[2],5)))
+
+curve(dnorm(x, fitalpha$estimate[1], fitalpha$estimate[2]), col = 2, add = TRUE)
+legend("topright", legend=c("simulated variables", "fitted normal"),
+       col=c("red", "black"), lty=c(1,1), cex=0.8)
+fitbeta <- fitdistr(x[2,], "normal")
+hist(x[2,],
+     main = 'Density of beta hat',
+     xlab='beta hat',
+     freq=FALSE, 
+     breaks=50,
+     sub=paste('fitted gaussian: mean',
+               round(fitbeta$estimate[1],5),
+                     ' and sd: ',
+               round(fitbeta$estimate[2],5)))
+
+curve(dnorm(x, fitbeta$estimate[1], fitbeta$estimate[2]), col = 2, add = TRUE)
+legend("topright", legend=c("simulated variables", "fitted normal"),
+       col=c("red", "black"), lty=c(1,1), cex=0.8)
+```
+# comparison of the means and sd:
+```{r}
+df=data.frame('type'=c('theory','simulation'),
+              'mean of alpha hat'=c(1+0.5,fitalpha$estimate[1]),
+              'variance of alpha hat'=c(1,fitalpha$estimate[2]),
+              'mean of beta hat'=c(2,fitbeta$estimate[1]),
+              'variance of beta hat'=c(1/((X-mean(X))%*%(X-mean(X))),fitbeta$estimate[2]^2))
+df
+```
+
