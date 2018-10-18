@@ -19,7 +19,7 @@ print(cov)
 #b)
 ## high condition number
 ei <- eigen(X_T_X)$values
-#cond <- sqrt(max(ei)/min(ei))
+
 compute_cond<- function(X){
   v <-eigen(X)$values
   sqrt(max(v)/min(v))
@@ -27,9 +27,47 @@ compute_cond<- function(X){
 cond <- compute_cond(X_T_X)
 
 print(cond)
-drop_one_var <- which.min(c(compute_cond(X_T_X[-1,-1]),compute_cond(X_T_X[-2,-2]),compute_cond(X_T_X[-3,-3])))
 
-#remove second variable or third one
-corrected_X_T_X <- X_T_X[-drop_one_var,-drop_one_var]
 
+##r_squared
+##0.9912091
+##0.987962
+##0.9952639
 #c)
+vifs <-c()
+betas <- c()
+for(i in 1:3){
+  design_k <- solve(X_T_X[-(i+1),-(i+1)])
+  val_Xt <- c(X_T_X[i+1,1],X_T_X[i+1,2],X_T_X[i+1,3],X_T_X[i+1,4])
+  val_Xt <- val_Xt[-(i+1)]
+  beta_k <- design_k %*% val_Xt
+  betas <- cbind(betas,beta_k)
+  
+  above <-0
+  below <-0
+  if(i==3){
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[2,i+1]+beta_k[3]*X_T_X[3,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  else if(i==2){
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[2,i+1]+beta_k[3]*X_T_X[4,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  else{
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[3,i+1]+beta_k[3]*X_T_X[4,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  r_sq <- 1 - above/below
+  vifs <- append(vifs, 1/(1-r_sq))
+}
+
+##vif highest for 3, thus we remove it
+
+##d)
+
+beta1 <- solve(X_T_X)%*%X_T_y
+beta_small <- solve(X_T_X[-4,-4])%*%X_T_y[-4]
+
+print(beta1)
+print(beta_small)
+##smaller value
