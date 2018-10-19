@@ -4,18 +4,18 @@ y_T_y <- c(3924)
 X_T_y <- c(460,810,615,712)
 n <- X_T_X[1,1]
 
-cov <- matrix(, nrow=3,ncol=3)
+cor <- matrix(, nrow=3,ncol=3)
 
-for( i in 1:nrow(cov)){
-  for(j in 1:ncol(cov)){
+for( i in 1:nrow(cor)){
+  for(j in 1:ncol(cor)){
     col_i_mean <- X_T_X[i+1,1]/n
     col_j_mean <- X_T_X[j+1,1]/n
-    #cov[i,j]<- X_T_X[1+i,1+j]-(col_i_mean)*X_T_X[j+1,1]-(col_j_mean)*X_T_X[i+1,1]+n*col_i_mean*col_j_mean
-    cov[i,j]<-(X_T_X[i+1,j+1]-n*col_i_mean*col_j_mean)/(sqrt(X_T_X[i+1,i+1]-n*col_i_mean*col_i_mean)*sqrt(X_T_X[j+1,j+1]-n*col_j_mean*col_j_mean))
+
+    cor[i,j]<-(X_T_X[i+1,j+1]-n*col_i_mean*col_j_mean)/(sqrt(X_T_X[i+1,i+1]-n*col_i_mean*col_i_mean)*sqrt(X_T_X[j+1,j+1]-n*col_j_mean*col_j_mean))
   }
 }
 
-print(cov)
+print(cor)
 #b)
 ## high condition number
 ei <- eigen(X_T_X)$values
@@ -29,10 +29,6 @@ cond <- compute_cond(X_T_X)
 print(cond)
 
 
-##r_squared
-##0.9912091
-##0.987962
-##0.9952639
 #c)
 vifs <-c()
 betas <- c()
@@ -61,13 +57,15 @@ for(i in 1:3){
   vifs <- append(vifs, 1/(1-r_sq))
 }
 
+print(vifs)
+
 ##vif highest for 3, thus we remove it
 
 ##d)
 
 beta1 <- solve(X_T_X)%*%X_T_y
+##dropped covariate regression
 beta_small <- solve(X_T_X[-4,-4])%*%X_T_y[-4]
 
 print(beta1)
 print(beta_small)
-##smaller value
