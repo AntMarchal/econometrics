@@ -1,0 +1,275 @@
+---
+title: "Econometrics Assignement 5 - Brodard Lionel, Giro Larraz Tomas, Marchal Antoine, Schonenberger Ivan"
+output: 
+  html_notebook: default
+---
+
+
+------->  Please run this code with ' Run all' of *Ctrl+Alt+R*
+
+
+
+
+```{r}
+#a)
+X_T_X <- matrix(c(100,123,96,109,123,252,125,189,96,125,167,146,109,189,146,168), nrow=4,ncol=4)
+y_T_y <- c(3924)
+X_T_y <- c(460,810,615,712)
+n <- X_T_X[1,1]
+
+cor <- matrix(, nrow=3,ncol=3)
+
+for( i in 1:nrow(cor)){
+  for(j in 1:ncol(cor)){
+    col_i_mean <- X_T_X[i+1,1]/n
+    col_j_mean <- X_T_X[j+1,1]/n
+
+    cor[i,j]<-(X_T_X[i+1,j+1]-n*col_i_mean*col_j_mean)/(sqrt(X_T_X[i+1,i+1]-n*col_i_mean*col_i_mean)*sqrt(X_T_X[j+1,j+1]-n*col_j_mean*col_j_mean))
+  }
+}
+
+print(cor)
+#b)
+## high condition number
+ei <- eigen(X_T_X)$values
+
+compute_cond<- function(X){
+  v <-eigen(X)$values
+  sqrt(max(v)/min(v))
+}
+cond <- compute_cond(X_T_X)
+
+print(cond)
+
+
+#c)
+vifs <-c()
+betas <- c()
+for(i in 1:3){
+  design_k <- solve(X_T_X[-(i+1),-(i+1)])
+  val_Xt <- c(X_T_X[i+1,1],X_T_X[i+1,2],X_T_X[i+1,3],X_T_X[i+1,4])
+  val_Xt <- val_Xt[-(i+1)]
+  beta_k <- design_k %*% val_Xt
+  betas <- cbind(betas,beta_k)
+  
+  above <-0
+  below <-0
+  if(i==3){
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[2,i+1]+beta_k[3]*X_T_X[3,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  else if(i==2){
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[2,i+1]+beta_k[3]*X_T_X[4,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  else{
+    above <- X_T_X[i+1,i+1]+t(beta_k)%*%X_T_X[-(i+1),-(i+1)]%*%beta_k-2*(beta_k[1]*X_T_X[1,i+1]+beta_k[2]*X_T_X[3,i+1]+beta_k[3]*X_T_X[4,i+1])
+    below <- X_T_X[i+1,i+1]-X_T_X[1,i+1]*X_T_X[1,i+1]/n
+  }
+  r_sq <- 1 - above/below
+  vifs <- append(vifs, 1/(1-r_sq))
+}
+
+print(vifs)
+
+##vif highest for 3, thus we remove it
+
+##d)
+
+beta1 <- solve(X_T_X)%*%X_T_y
+##dropped covariate regression
+beta_small <- solve(X_T_X[-4,-4])%*%X_T_y[-4]
+
+print(beta1)
+print(beta_small)
+```
+#Exercice3
+#3.a)
+
+
+#compute the 95% confidence interval for the models parameters
+```{r}
+df= read.csv('./US_Gasoline_Market.csv')
+CONS=1e6*df$GASEXP/df$GASP/df$POP
+df$CONS=CONS
+#Compute the parameter estimates BetaHat
+X=cbind(matrix(replicate(52,1),c(52,1)),df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PD,df$PN,df$PS,df$YEAR)
+Y=matrix(df$CONS,c(52,1))
+BetaHat=solve(t(X)%*%X)%*%t(X)%*%Y
+#comparing with the linear fit lm
+Model=lm(df$CONS~1+df$INCOME+df$GASP+df$PNC+df$PUC+df$PPT+df$PD+df$PN+df$PS+df$YEAR)
+summary(Model)
+#compute the estimator Ssquared and S matrix
+n=nrow(X)
+K=ncol(X)
+M=diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
+E=M%*%Y
+Ssquared=t(E)%*%E/(n-K)
+S=solve(t(X)%*%X)
+#compute the quantile t_(1-alpha),(n-K)
+alpha=0.05
+t=qt(1-alpha/2,n-K)
+#compute the intervals of 95% confidence
+Interval=matrix(0L,K,2)
+for (k in 1:K){
+  Interval[k,1]= BetaHat[k,1]-t*sqrt(Ssquared*S[k,k])
+  Interval[k,2]= BetaHat[k,1]+t*sqrt(Ssquared*S[k,k])
+
+}
+message("Interval of confidence-Own procedure")
+Interval
+#verification with confint function, giving the confidence intervals
+Int=confint(Model,level=0.95)
+message("Interval of confidence-R function")
+Int
+```
+
+#3.b)
+
+#Compute the correlation between the variables
+```{r}
+Variables=cbind(df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PD,df$PN,df$PS,df$YEAR)
+cor(Variables)
+```
+#compute the condition number of the design matrix
+```{r}
+X_tX=t(X)%*%X
+#normalisation
+for (k in 1:K ){
+ X_tX[,k]=X_tX[,k]/as.vector(sqrt(t(X_tX[,k])%*%X_tX[,k]))
+}
+Eigenvalues= eigen(X_tX)$values
+ConditionNumber=sqrt(max(Eigenvalues)/min(Eigenvalues))
+ConditionNumber
+
+```
+#Compute vif
+```{r}
+Rsquared_k= matrix(0L,K-1,1)
+ for (k in 1:(K-1)){
+   model=lm(Variables[,k]~Variables[,-k])
+   Rsquared_k[k,1]=summary(model)$r.squared
+ }
+message("R_k")
+Rsquared_k
+VIF=matrix(1L,K-1,1)/(matrix(1L,K-1,1)-Rsquared_k)
+message("VIF-Own procedure")
+VIF
+#Comparison with vif function (package "car")
+library(car)
+message("VIF-R function")
+vif(Model)
+
+```
+
+
+# Exercice 4
+# Consider the dataset and the model of exercise 5 in assignment 4. We are interested in the efficient scale, which is the output Q for which the cost curve reaches its minimum.
+# Copy of the exercise 5 in assignment 4.
+
+```{r}
+# Importation of Data
+df <- read.csv('./Electricity_Generation_Cost.csv')
+# Computation of Estimating Equation Variables
+df$logCOST_PF<-log(df$COST/df$PF) # log(Total cost/Fuel price)
+df$logq <- (log(df$Q)) # log(Total Output)
+df$logq2 <- 0.5*(log(df$Q)^2) #1/2* log(Total Output)^0.5
+df$logPK_PF<-log(df$PK/df$PF)  #log(Capital price index/Fuel price)
+df$logPL_PF<-log(df$PL/df$PF) #log(Wage rate/Fuel price)
+
+# Number of Observation by variable
+n<-length(df$logPK_PF)
+
+#### Estimation of parameters, their covariance matrix and their standard errors.
+# Matrix of X and Y
+X <- cbind(replicate(n,1),df$logq,df$logq2,df$logPK_PF,df$logPL_PF) #We create a matrix with the variable of interest
+Y <- cbind(df$logCOST_PF)
+
+# Estimated parameters
+Beta_hat <- solve(t(X)%*%X)%*%t(X)%*%Y #parameters estimated with our own procedure
+
+reg <- lm(Y~X[,2:5]) 
+Beta_hat_ofs <- cbind(summary(reg)$coef[,1]) #parameters estimated using an off-the-shelve package
+
+# Residuals
+e <- Y-X%*%Beta_hat # computation of residuals
+ee <- (t(e)%*%e) # sum of squared residuals
+
+# Number of regressors
+k<-nrow(Beta_hat) 
+
+# Estimated asymsoptical covariances
+covB <-ee[1]/(n-k)*solve(t(X)%*%X) # estimated asymptotical covariance matrix using our own procedure
+covB_ofs <- vcov(reg) # estimated asymptotical covariance matrix using an off-the-shelve package
+
+# Estimated standard errors of the parameter estimates
+sdB <- cbind(sqrt(diag(covB))) # estimated standard errors using our own procedure
+sdB_ofs <- cbind(summary(reg)$coef[,2]) # estimated standard errors using an off-the-shelve package
+
+
+message('Estimated Coefficient - Own Procedure=')
+round(Beta_hat,3)
+message('Estimated Coefficient - Off-the-Shelve Package=')
+round(Beta_hat_ofs,3)
+
+message('Estimated Covariance Matrix - Own Procedure=')
+round(covB,5)
+message('Estimated Covariance Matrix - Off-the-Shelve Package=')
+round(covB_ofs,5)
+
+message('Estimated Standard Errors - Own Procedure=')
+round(sdB,3)
+message('Estimated Standard Errors - Off-the-Shelve Package=')
+round(sdB_ofs,3)
+```
+
+# Exercise 4
+# (b) Compute an estimate of Q* using your previous regression results and provide a 95% confidence interval for Q.
+```{r}
+# We take from our environment the estimates that are useful for us 
+Beta <-Beta_hat[2]
+Gamma <- Beta_hat[3]
+Var_Beta <- covB[2,2]
+Sd_Beta <- sqrt(Var_Beta)
+Var_Gamma <- covB[3,3]
+Sd_Gamma <- sqrt(Var_Gamma)
+
+# Compute the estimation of Q*
+Q_star <- exp((1-Beta)/Gamma)
+
+message('Estimated Q*=')
+Q_star
+
+######################################################## 
+#### Simulation of Q using our estimated parameters ####
+######################################################## 
+
+# simulated n
+n <-1000
+# simulation of 1000 parameters using the estimated mean and sd (be careful of the degree of freedom)
+set.seed(10)
+Beta_estimation <- rnorm(n,Beta,Sd_Beta/((1/(5-2))*(sqrt(158-2)))) 
+set.seed(10)
+Gamma_estimation <- rnorm(n,Gamma,Sd_Gamma/((1/(5-2))*(sqrt(158-2))))
+
+# Simulation of Q
+Q_estimation <- matrix(1, nrow = n, ncol = n)
+for (i in 1:n){
+  for (j in 1:n){
+  Q_estimation[i,j] <- exp((1-Beta_estimation[i])/Gamma_estimation[j])
+  }
+}
+
+# Make Q a vector
+Q <- as.vector(Q_estimation)
+
+# Find the estimated standard error
+message('Standard Error of Q=')
+sqrt(var(Q))
+
+# Make a 95% Confidence interval
+message('Lower bound =')
+Q_star-1.96*sqrt(var(Q))
+message('Upper bound=')
+Q_star+1.96*sqrt(var(Q))
+```
