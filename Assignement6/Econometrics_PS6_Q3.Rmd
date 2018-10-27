@@ -8,7 +8,49 @@ output:
 ------->  Please run this code with ' Run all' of *Ctrl+Alt+R*
 
 
-#Exercice 3 from Assignement 3
+
+#Exercise 1
+```{r}
+library('stats')
+message('1c)')
+message('alpha')
+2-2*pt( 0.01*sqrt( 20 )/0.033 , 19 )
+
+message('\n1d)')
+message('k0')
+qt( 1.95/2 , 19 )*0.033/sqrt( 20 )
+
+
+
+mu=seq(-0.03,0.03,0.001)
+y=1-pt((0.01-mu)*sqrt(20)/0.033,19)+pt((-0.01-mu)*sqrt(20)/0.033,19)
+png(filename="./e.png", units="in", width=6.5, height=4, res=300)
+plot(mu,
+     y,
+     type='l',
+     main='Power of the test as a function of the true mean of the errors',
+     ylab='power (k0=0.01)')
+dev.off()
+
+message('\n1f)')
+message('n=')
+(0.033/0.01*qt(1.05/2,19))
+```
+```{r}
+i=20
+while(2-2*pt(0.01/0.033*sqrt(i),i-1)>0.05 && i<100){
+  i=i+1
+  message(i)
+  message(2-2*pt(0.01/0.033*sqrt(i),i-1))
+  message()
+}
+message('\n=')
+message(i)
+```
+
+
+
+#Exercise 3 from Assignement 3
 ```{r}
 #install.packages("car")
 df= read.csv('./US_Gasoline_Market.csv')
