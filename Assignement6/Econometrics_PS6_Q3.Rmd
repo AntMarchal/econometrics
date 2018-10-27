@@ -1,0 +1,178 @@
+---
+title: "Econometrics Assignement 6 - Brodard Lionel, Giro Larraz Tomas, Marchal Antoine, Schonenberger Ivan"
+output: 
+  html_notebook: default
+---
+
+
+------->  Please run this code with ' Run all' of *Ctrl+Alt+R*
+
+
+#Exercice 3 from Assignement 3
+```{r}
+#install.packages("car")
+df= read.csv('./US_Gasoline_Market.csv')
+CONS=1e6*df$GASEXP/df$GASP/df$POP
+df$CONS=CONS
+#Compute the parameter estimates BetaHat
+X=cbind(matrix(replicate(52,1),c(52,1)),df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PD,df$PN,df$PS,df$YEAR)
+Y=matrix(df$CONS,c(52,1))
+BetaHat=solve(t(X)%*%X)%*%t(X)%*%Y
+#comparing with the linear fit lm
+Model=lm(df$CONS~1+df$INCOME+df$GASP+df$PNC+df$PUC+df$PPT+df$PD+df$PN+df$PS+df$YEAR)
+summary(Model)
+#compute the estimator Ssquared and S matrix
+n=nrow(X)
+K=ncol(X)
+M=diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
+E=M%*%Y
+Ssquared=t(E)%*%E/(n-K)
+S=solve(t(X)%*%X)
+#compute the quantile t_(1-alpha),(n-K)
+alpha=0.05
+t=qt(1-alpha/2,n-K)
+#compute the intervals of 95% confidence
+Interval=matrix(0L,K,2)
+for (k in 1:K){
+  Interval[k,1]= BetaHat[k,1]-t*sqrt(Ssquared*S[k,k])
+  Interval[k,2]= BetaHat[k,1]+t*sqrt(Ssquared*S[k,k])
+
+}
+message("Interval of confidence-Own procedure")
+Interval
+#verification with confint function, giving the confidence intervals
+Int=confint(Model,level=0.95)
+message("Interval of confidence-R function")
+Int
+
+#Compute the correlation between the variables
+Variables=cbind(df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PD,df$PN,df$PS,df$YEAR)
+cor(Variables)
+
+#compute the condition number of the design matrix
+X_tX=t(X)%*%X
+#normalisation
+for (k in 1:K ){
+ X_tX[,k]=X_tX[,k]/as.vector(sqrt(t(X_tX[,k])%*%X_tX[,k]))
+}
+Eigenvalues= eigen(X_tX)$values
+ConditionNumber=sqrt(max(Eigenvalues)/min(Eigenvalues))
+ConditionNumber
+
+#Compute vif
+Rsquared_k= matrix(0L,K-1,1)
+ for (k in 1:(K-1)){
+   model=lm(Variables[,k]~Variables[,-k])
+   Rsquared_k[k,1]=summary(model)$r.squared
+ }
+message("R_k")
+Rsquared_k
+VIF=matrix(1L,K-1,1)/(matrix(1L,K-1,1)-Rsquared_k)
+message("VIF-Own procedure")
+VIF
+#Comparison with vif function (package "car")
+library(car)
+message("VIF-R function")
+vif(Model)
+```
+
+# Exercice 3
+# Consider the dataset and the model of exercise 5 in assignment 3
+```{r}
+#############################################################################################################################################
+######################################### (a). Test the significance of each individual coefficient #########################################
+#############################################################################################################################################
+# Testing the signifance mean that Ho: coeff=0 H1= coeff/=0. Let's calculate the t-value of each coeff (t value because true sigma is unknown)
+library(stargazer)
+H0<-0  #H0: the coefficient is equal to 0
+
+coeff_mean <- cbind(summary(Model)$coefficients[1:10,1]) # Take the estimated value of each coefficient
+coeff_sd <- cbind(summary(Model)$coefficients[1:10,2]) # Take the estimated sd of each coefficient
+
+t_values <- (coeff_mean-H0)/coeff_sd # Construct the t-value of each coefficient
+
+t_2=qt(1-alpha/2,n-K) # find the critical t-value for testing the coefficient at 95%
+
+t_values_comp <- abs(t_values)-rep(t_2,K) # compare the t-values and the critical t-value for each coefficient
+message("     ")
+message("Exercice a.")
+message("Interval of assignement 5")
+Interval
+message("Difference between the absolute value of the t-value and critical t-value for each coefficient")
+round(t_values_comp,2)
+message("We can see that for each coefficient for which the difference between the absolute value of the t-value and critical t-value is smaller than 0, 0 is inside the interval confidence of this coefficient ")
+#############################################################################################################################################
+######### (b). Joint test that the coefficient of the three variables with highest variance inflation factor are jointly equal to 0 #########
+#############################################################################################################################################
+
+NIV<-6 #number of independant variable
+NOR<-3 #number of restriction
+
+restricted_model <-lm(df$CONS~1+df$INCOME+df$GASP+df$PUC+df$PPT+df$PD+df$YEAR) #make a restricted regression by removing the 3 variables that are tested to be equal to zeros (if equal to H0 is accepted, it means that the restricted model and the unrestriced model have the same regression)
+
+SSRur <- sum(resid(Model)^2)
+SSRr <- sum(resid(restricted_model)^2)
+
+F_o <-((SSRr-SSRur)/NOR)/(SSRur/(n-NIV-1))
+
+critical_F <-4.35 #critical F at 95% with 3 dof in numerator, 7 in denominator
+message("     ")
+message("Exercice b.")
+message("Value of F")
+F_o
+message("critical F at 95%")
+critical_F
+message("Fisher Value is higher than critical Fisher Value")
+F_o > critical_F
+message("So H0 is rejected. The three coefficients are not jointly equal to 0")
+
+#############################################################################################################################################
+############ (c) Test the hypothesis car users only care about the price difference between new cars (PNC) and used cars (PUC) ############
+#############################################################################################################################################
+##H0: PNC-PUC=0
+PrDiff_PNCPUC <- (df$PNC-df$PUC)
+restricted_model_2 <- lm(df$CONS~1+df$INCOME+df$GASP+PrDiff_PNCPUC+df$PPT+df$PD+df$PN+df$PS+df$YEAR)
+NIV_2<-8 #number of independant variable
+NOR_2<-1 #number of restriction
+
+SSRr_2 <- sum(resid(restricted_model_2)^2)
+
+F_o_2 <-((SSRr_2-SSRur)/NOR_2)/(SSRur/(n-NIV_2-1))
+
+critical_F_2 <-5.12 #critical F at 95% with 1 dof in numerator, 9 in denominator
+message("     ")
+message("Exercice c.")
+message("Value of F")
+F_o_2
+message("critical F at 95%")
+critical_F_2
+message("Fisher Value is higher than critical Fisher Value")
+F_o_2 > critical_F
+message("So H0 is not rejected. Car users potentielly care only about the price difference")
+#############################################################################################################################################
+########################## (d) Test the hypothesis ???car users care as much for the price for consumer durables (PD),#########################  
+############################ the price for consumer nondurables (PN), and the price for consumer services (PS)??? #############################
+#############################################################################################################################################
+# H0: PD=PN=PS and PN-PS=0
+PDPNPS <- (df$PD+df$PN+df$PS)
+restricted_model_3 <- lm(df$CONS~1+df$INCOME+df$GASP+df$PNC+df$PUC+df$PPT+PDPNPS+df$YEAR)
+NIV_3<-7 #number of independant variable
+NOR_3<-2 #number of restriction
+
+SSRr_3 <- sum(resid(restricted_model_3)^2)
+
+critical_F_3 <-4.46 #critical F at 95% with 2 dof in numerator, 8 in denominator
+F_o_3 <-((SSRr_3-SSRur)/NOR_3)/(SSRur/(n-NIV_3-1))
+message("     ")
+message("Exercice d.")
+message("Value of F")
+F_o_3
+message("critical F at 95%")
+critical_F_3
+message("Fisher Value is higher than critical Fisher Value")
+F_o_3 > critical_F
+message("So H0 is rejected. The three coefficients are not equals")
+
+
+```
+

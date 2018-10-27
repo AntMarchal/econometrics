@@ -241,35 +241,25 @@ message('Estimated Q*=')
 Q_star
 
 ######################################################## 
-#### Simulation of Q using our estimated parameters ####
+########## Construct the asymptotic normality  #########
 ######################################################## 
+# Matrix C, the gradient of Q wrt betas
+B <- -1/Gamma*exp((1-Beta)/Gamma)
+G <- -(1-Beta)/Gamma^2*exp((1-Beta)/Gamma)
 
-# simulated n
-n <-1000
-# simulation of 1000 parameters using the estimated mean and sd (be careful of the degree of freedom)
-set.seed(10)
-Beta_estimation <- rnorm(n,Beta,Sd_Beta/((1/(5-2))*(sqrt(158-2)))) 
-set.seed(10)
-Gamma_estimation <- rnorm(n,Gamma,Sd_Gamma/((1/(5-2))*(sqrt(158-2))))
+C <- cbind(0,B,G,0,0)
 
-# Simulation of Q
-Q_estimation <- matrix(1, nrow = n, ncol = n)
-for (i in 1:n){
-  for (j in 1:n){
-  Q_estimation[i,j] <- exp((1-Beta_estimation[i])/Gamma_estimation[j])
-  }
-}
+# Asymptotic Error of sigma^2
+s2 <- ee/(n-k)
 
-# Make Q a vector
-Q <- as.vector(Q_estimation)
-
-# Find the estimated standard error
+# Var of Q*
+Var_Q_star <-s2*C%*%solve(t(X)%*%X)%*%t(C)
 message('Standard Error of Q=')
-sqrt(var(Q))
+sqrt(Var_Q_star)
 
 # Make a 95% Confidence interval
 message('Lower bound =')
-Q_star-1.96*sqrt(var(Q))
+Q_star-1.96*sqrt(Var_Q_star)
 message('Upper bound=')
-Q_star+1.96*sqrt(var(Q))
+Q_star+1.96*sqrt(Var_Q_star)
 ```
