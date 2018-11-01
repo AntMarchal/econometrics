@@ -7,18 +7,20 @@ df <- read.csv("C:\\Users\\Ivan\\Desktop\\MA1\\Econometrics\\econometrics\\Assig
 CONS<-1e6*df$GASEXP/(df$GASP*df$POP)
 y <- CONS
 
-##add intercept
 ##Build design matrix X
+##Add intercept
 df <- df[,c("INCOME","GASP","PNC","PUC","PPT","PD","PN","PS","YEAR")]
 df <- cbind(rep(1,nrow(df)),df)
 n <- nrow(df)
 
-##get cols other than intercept
+##get all subset of possible columns
 ps <- powerset(2:ncol(df))
 perms<- vector("list", length(ps))
 
-for(i in 1:length(ps)){
-  perms[[i]]<-c(unlist(ps[i]))
+##don't forget to test model with only intercept
+perms[[1]]<- c()
+for(i in 2:(length(ps)+1)){
+  perms[[i]]<-c(unlist(ps[i-1]))
 }
 
 getBeta <-function(y,X){
@@ -44,8 +46,12 @@ for(p in perms){
 table <- cbind(1:length(perms),rmses)
 ##full model,
 full_model_rmse <-table[nrow(table),2]
+
 table <- table[order(table[,2], decreasing = F),]
 
+##Best and worst models rmse and columns
+##to get columns input for i do perms[[best[i,1]]] and get a list of numbers
+## and get the corresponding variables
 best <- table[1:5,]
 worst <- table[(nrow(table)-5):nrow(table),]
 
