@@ -40,6 +40,7 @@ X_7_SG=cbind(X1,df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PN)
 X_8_SG=cbind(X1,df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PN,df$PS)
 X_9_SG=cbind(X1,df$INCOME,df$GASP,df$PNC,df$PUC,df$PPT,df$PN,df$PS,df$YEAR)
 
+
 # Number of Regressors
 K_SG=rbind(ncol(X_0_SG),ncol(X_1_SG),ncol(X_2_SG),ncol(X_3_SG),ncol(X_4_SG),ncol(X_5_SG),ncol(X_6_SG),ncol(X_7_SG),ncol(X_8_SG),ncol(X_9_SG))
 
