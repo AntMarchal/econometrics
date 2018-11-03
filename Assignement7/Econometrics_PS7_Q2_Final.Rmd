@@ -26,42 +26,39 @@ Y_bar <- rep(mean(Y),52)
 # Sum of Squared Y deviation around its mean
 Y_Y2 <- t((Y-Y_bar))%*%(Y-Y_bar)
 
-# Number of observations
-n<-52
-cols=c(1)
+
+n<-52 # Number of observations
+cols=c(1) # vector of kept variables, start with only the intercept
 significant = T
-while (significant==T) {
-  R2_SG<-matrix(nrow=10,ncol=4)
-  for (i in (2:10)){
-    if ((i %in% cols)==FALSE){
-      X<-cbind(df[,c(cols)])
-      X<-data.matrix(X)
+while (significant==T) { # While loop to continue add columns to X until the coefficient are not statistically significant
+  R2_SG<-matrix(nrow=10,ncol=4) # Matrix of R2 with i, F-test and critical F
+  for (i in (2:10)){ # Start at 2, because we keep the intercept in any case
+    if ((i %in% cols)==FALSE){ # Test i only if it's not already included in our kept variables
+      X<-data.matrix(cbind(df[,c(cols)])) # matrix of X before adding a new column
       M_star<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E_star<-M_star%*%Y
       EE_star<-t(E_star)%*%E_star
-      X<-cbind(X,df[,i])
-      X<-data.matrix(X)
+      X<-data.matrix(cbind(X,df[,i])) # matrix of X with a new column i
       K<-ncol(X)
       M<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E<-M%*%Y
       EE<-t(E)%*%E
       J<-1
-      R2_SG[i,1]=i
-      R2_SG[i,2]<-1-((EE)/(n-K))/((Y_Y2)/(n-1))
-      R2_SG[i,3]<- ((EE_star-EE)/J)/(EE/(n-K))
-      R2_SG[i,4] <-qf(0.95,J,(n-K))
+      R2_SG[i,1]=i # keep the i
+      R2_SG[i,2]<-1-((EE)/(n-K))/((Y_Y2)/(n-1)) # adjusted R2
+      R2_SG[i,3]<- ((EE_star-EE)/J)/(EE/(n-K))  # F value
+      R2_SG[i,4] <-qf(0.95,J,(n-K)) # critical F
     }
   }
- 
- R2_SG<-R2_SG[order(R2_SG[,2],decreasing =T),]
- if (R2_SG[1,3]>R2_SG[1,4]){
-   cols=cbind(cols,R2_SG[1,1])
-   significant=T
+ R2_SG<-R2_SG[order(R2_SG[,2],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
+ if (R2_SG[1,3]>R2_SG[1,4]){ #If the model with best adjusted R2 has its added column that is satistically significant:
+   cols=cbind(cols,R2_SG[1,1]) #we add to our vector of kept variables
+   significant=T #so we continue our loop while for a new column to test
   } else {
    significant=F
   }
 }
-X_SG<-data.matrix(cbind(df[,c(cols)]))
+X_SG<-data.matrix(cbind(df[,c(cols)])) # We save our matrix of X for the simple-to-general model for further tests.
 ```
 
 ```{r}
@@ -75,43 +72,41 @@ ndf$CONS=1e6*ndf$GASEXP/ndf$GASP/ndf$POP
 ndf$INTERCEPT<-cbind(replicate(52,1))
 df <- ndf[,c(13,5,4,6,7,8,9,10,11,1,12,2,3)] 
 
-cols_2=c(1,2,3,4,5,6,7,8,9,10)
+cols_2=c(1,2,3,4,5,6,7,8,9,10) # vector of kept variables, start with all the variables
 
 significant = T
 
 while (significant==T) {
   R2_GS<-matrix(nrow=10,ncol=4)
   for (i in (2:10)){
-    if (i %in% cols_2){
-      X<-cbind(df[,c(cols_2)])
-      X<-data.matrix(X)
+    if (i %in% cols_2){ # Test i only if it's still in our kept variables
+      X<-data.matrix(cbind(df[,c(cols_2)])) # Matrix of X without the removed variable
       M<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E<-M%*%Y
       EE<-t(E)%*%E
       K<-ncol(X)
-      X<-X[,-i]
-      X<-data.matrix(X)
+      X<-data.matrix(X[,-i]) # Matrix of X with the removed variable
       M_star<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E_star<-M_star%*%Y
       EE_star<-t(E_star)%*%E_star
       J<-1
-      R2_GS[i,1]=i
-      R2_GS[i,2]<- 1-((EE_star)/(n-K))/((Y_Y2)/(n-1))
-      R2_GS[i,3]<- ((EE_star-EE)/J)/(EE/(n-K))
-      R2_GS[i,4] <-qf(0.95,J,(n-K))
+      R2_GS[i,1]=i # keep i
+      R2_GS[i,2]<- 1-((EE_star)/(n-K))/((Y_Y2)/(n-1)) # adjusted R2
+      R2_GS[i,3]<- ((EE_star-EE)/J)/(EE/(n-K)) # F value
+      R2_GS[i,4] <-qf(0.95,J,(n-K)) # critical F
     }
   }
- R2_GS<-R2_GS[order(R2_GS[,2],decreasing =T),]
- if (R2_GS[1,3]<R2_GS[1,4]){
-   cols_sort <- cols_2[!cols_2 %in% (R2_GS[1,1])]
-   cols_2 <- cols_2[-length(cols_2)]
-   significant=T
-   df <- df[,cols_sort] 
+ R2_GS<-R2_GS[order(R2_GS[,2],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
+ if (R2_GS[1,3]<R2_GS[1,4]){ #If the model with best adjusted R2 has its added column that is not satistically significant:
+   cols_sort <- cols_2[!cols_2 %in% (R2_GS[1,1])] #we remove the variable from our vector of kept variables
+   cols_2 <- cols_2[-length(cols_2)] #we readjust the number of variables that we still have
+   significant=T #so we continue our loop while for a new column to test
+   df <- df[,cols_sort] #we remove from the dataframe the variable we don't need
   } else {
    significant=F
   }
 }
-X_GS<-data.matrix(cbind(df[,c(cols_2)]))
+X_GS<-data.matrix(cbind(df[,c(cols_2)])) # We save our matrix of X for the general-to-simple model for further tests.
 
 ```
 
@@ -121,15 +116,17 @@ X_GS<-data.matrix(cbind(df[,c(cols_2)]))
 #############################################################################################################################################
 # Computation of the important parameters of the Simple-to-General Model
 M_SG<-diag(n)-X_SG%*%solve(t(X_SG)%*%X_SG)%*%t(X_SG)
-E_SG<-M_SG%*%Y
+E_SG<-round(M_SG%*%Y,3)
 EE_SG<-t(E_SG)%*%E_SG
 K_SG<-ncol(X_SG)
+Beta_SG<-solve(t(X_SG)%*%X_SG)%*%t(X_SG)%*%Y
 
 # Computation of the important parameters of the General-to-Simple Model
 M_GS<-diag(n)-X_GS%*%solve(t(X_GS)%*%X_GS)%*%t(X_GS)
-E_GS<-M_GS%*%Y
+E_GS<-round(M_GS%*%Y,3)
 EE_GS<-t(E_GS)%*%E_GS
 K_GS<-ncol(X_GS)
+Beta_GS<-solve(t(X_GS)%*%X_GS)%*%t(X_GS)%*%Y
 
 # Adjusted R Squared
 AdjustedR2_SG<-1-((EE_SG)/(n-K_SG))/((Y_Y2)/(n-1))
@@ -156,10 +153,11 @@ for (i in 1:n){
 }
 # Difference between the two models
 Mi <-(SG_log-GS_log)
+Sum_Mi_n<- 1/n*(rbind(rep(1,n)))%*%Mi
 # Mean difference between the two models
 M_bar <- cbind(rep(mean(Mi),n))
 # Vuong Statistics
-V=sqrt(n)*((rbind(rep(1,n))%*%Mi/n)/(t((Mi-M_bar))%*%(Mi-M_bar)/n))
+V=sqrt(n)*(Sum_Mi_n/sqrt((t((Mi-M_bar))%*%(Mi-M_bar)/n)))
 
 message ("Adjusted R2 - Simple-to-General Model")
 AdjustedR2_SG
