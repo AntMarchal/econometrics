@@ -246,7 +246,7 @@ V
 ```
 # #######################  Exercice 3 - Assignement 7
 ```{r}
-# install.packages("ggm")
+install.packages("ggm")
 library(ggm)
 
 df <- read.csv('./US_Gasoline_Market.csv')
