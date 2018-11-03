@@ -7,8 +7,76 @@ output:
 
 ------->  Please run this code with ' Run all' of *Ctrl+Alt+R*
 
+# #######################  Exercice 1 - Assignement 7
+# function to calculate the F-statistic
+```{r}
+fStatistic <- function(R,q,X,b,e){
+  J=dim(R)[1]
+  K=dim(R)[2]
+  n=dim(X)[1]
+  return(t(R%*%b-q)%*%solve(R%*%solve(t(X)%*%X)%*%t(R))%*%(R%*%b-q)/J/(t(e)%*%e/(n-K)))
+}
+```
 
-# Exercice 2 - Assignement 7
+#Exercise 1
+
+# recalculating the model from as 3.
+```{r}
+dat <- read.table('./US_Gasoline_Market.csv', header = TRUE, row.names = 1, sep = ",")
+
+
+## Compute per capita consumption and store data
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10])
+message('head(X)')
+head(X)
+
+Y <- 1000000 * mat[, "GASEXP"] / (mat[, "GASP"] * mat[, "POP"])
+Y=as.matrix(Y,ncol=1)
+message('head(Y)')
+head(Y)
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+```
+
+
+# Entering R and q
+```{r}
+R=cbind(as.matrix(replicate(9,0)),diag(9))
+message('R')
+R
+q=as.matrix(replicate(9,0))
+message('q')
+q
+```
+
+
+
+# Computing the F-statistic using our model
+```{r}
+library('stats')
+fStat=fStatistic(R,q,X,b,e)
+message('f-statistic')
+fStat
+message('\np-value')
+1-pf(fStat,9,42)
+
+message('\np-value is less than:')
+1-pf(35,9,42)
+```
+
+# Computing the F-statistic with an r package
+```{r}
+model=lm(Y~1+X[1:52,2]+X[1:52,3]+X[1:52,4]+X[1:52,5]+X[1:52,6]+X[1:52,7]+X[1:52,8]+X[1:52,9]+X[1:52,10])
+summary(model)
+```
+
+
+# #######################  Exercice 2 - Assignement 7
 ```{r}
 # Download the data
 ndf= read.csv('./US_Gasoline_Market.csv')
@@ -175,4 +243,67 @@ message ("BIC - General-to-Simple Model")
 BIC_GS
 message ("Vuong Statistics")
 V
+```
+# #######################  Exercice 3 - Assignement 7
+```{r}
+# install.packages("ggm")
+library(ggm)
+
+df <- read.csv('./US_Gasoline_Market.csv')
+
+##Build y
+CONS<-1e6*df$GASEXP/(df$GASP*df$POP)
+y <- CONS
+
+##Build design matrix X
+##Add intercept
+df <- df[,c("INCOME","GASP","PNC","PUC","PPT","PD","PN","PS","YEAR")]
+df <- cbind(rep(1,nrow(df)),df)
+n <- nrow(df)
+
+##get all subset of possible columns
+ps <- powerset(2:ncol(df))
+perms<- vector("list", length(ps))
+
+##don't forget to test model with only intercept
+perms[[1]]<- c()
+for(i in 2:(length(ps)+1)){
+  perms[[i]]<-c(unlist(ps[i-1]))
+}
+
+getBeta <-function(y,X){
+  solve(t(X)%*%X)%*%t(X)%*%y
+}
+
+rmses <- c()
+for(p in perms){
+  res <- c()
+  for(i in 1:n){
+    design_X <- data.matrix(df[-i,c(1,p)])
+    design_y <- y[-i]
+    beta <- getBeta(design_y,design_X)
+    pred_err <- ((y[i]-data.matrix(df[i,c(1,p)])%*%beta)**2)/n
+    res <- append(res,pred_err)
+  }
+  rmses <- append(rmses, sqrt(sum(res)))
+}
+
+
+table <- cbind(1:length(perms),rmses)
+##full model,
+full_model_rmse <-table[nrow(table),2]
+
+table <- table[order(table[,2], decreasing = F),]
+
+##Best and worst models rmse and columns
+##to get columns input for i do perms[[best[i,1]]] and get a list of numbers
+## and get the corresponding variables
+best <- table[1:5,]
+worst <- table[(nrow(table)-5):nrow(table),]
+
+##simple to general,
+##As seen on exercise 3 doing simple to general we keep columns
+##INTERCEPT YEAR PS INCOME and GASP, which correspond to the
+##236th permutation. We find it on the table
+SG_rmse <- table[9,2]
 ```
