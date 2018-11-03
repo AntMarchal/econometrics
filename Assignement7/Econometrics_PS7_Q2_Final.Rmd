@@ -50,7 +50,8 @@ while (significant==T) { # While loop to continue add columns to X until the coe
       R2_SG[i,4] <-qf(0.95,J,(n-K)) # critical F
     }
   }
- R2_SG<-R2_SG[order(R2_SG[,2],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
+ ##changement below, j'ordonne par F value 
+ R2_SG<-R2_SG[order(R2_SG[,3],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
  if (R2_SG[1,3]>R2_SG[1,4]){ #If the model with best adjusted R2 has its added column that is satistically significant:
    cols=cbind(cols,R2_SG[1,1]) #we add to our vector of kept variables
    significant=T #so we continue our loop while for a new column to test
@@ -96,7 +97,8 @@ while (significant==T) {
       R2_GS[i,4] <-qf(0.95,J,(n-K)) # critical F
     }
   }
- R2_GS<-R2_GS[order(R2_GS[,2],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
+  ##changement below, j'ordonne par F value 
+ R2_GS<-R2_GS[order(R2_GS[,3],decreasing =T),] # After building the model with all i, we sort the the R2 matrix by their adjusted R2
  if (R2_GS[1,3]<R2_GS[1,4]){ #If the model with best adjusted R2 has its added column that is not satistically significant:
    cols_sort <- cols_2[!cols_2 %in% (R2_GS[1,1])] #we remove the variable from our vector of kept variables
    cols_2 <- cols_2[-length(cols_2)] #we readjust the number of variables that we still have
