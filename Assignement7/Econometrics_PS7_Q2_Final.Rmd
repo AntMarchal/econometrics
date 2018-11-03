@@ -39,10 +39,10 @@ while (significant==T) {
       M_star<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E_star<-M_star%*%Y
       EE_star<-t(E_star)%*%E_star
-      X_SG<-cbind(X,df[,i])
-      X_SG<-data.matrix(X_SG)
+      X<-cbind(X,df[,i])
+      X<-data.matrix(X)
       K<-ncol(X)
-      M<-diag(n)-X_SG%*%solve(t(X_SG)%*%X_SG)%*%t(X_SG)
+      M<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E<-M%*%Y
       EE<-t(E)%*%E
       J<-1
@@ -61,6 +61,7 @@ while (significant==T) {
    significant=F
   }
 }
+X_SG<-data.matrix(cbind(df[,c(cols)]))
 ```
 
 ```{r}
@@ -88,9 +89,9 @@ while (significant==T) {
       E<-M%*%Y
       EE<-t(E)%*%E
       K<-ncol(X)
-      X_GS<-X[,-i]
-      X_GS<-data.matrix(X_GS)
-      M_star<-diag(n)-X_GS%*%solve(t(X_GS)%*%X_GS)%*%t(X_GS)
+      X<-X[,-i]
+      X<-data.matrix(X)
+      M_star<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
       E_star<-M_star%*%Y
       EE_star<-t(E_star)%*%E_star
       J<-1
@@ -110,6 +111,7 @@ while (significant==T) {
    significant=F
   }
 }
+X_GS<-data.matrix(cbind(df[,c(cols_2)]))
 
 ```
 
