@@ -56,5 +56,9 @@ best <- table[1:5,]
 worst <- table[(nrow(table)-5):nrow(table),]
 
 ##simple to general,
-
-##general to simple,
+##As seen on exercise 3 doing simple to general we keep columns
+##INTERCEPT YEAR PS INCOME and GASP
+SG_rmse <- table[236,2]
+##For general to simple we keep
+##INTERCEPT INCOME GASP PS
+GS_rmse <- table[82,2]
