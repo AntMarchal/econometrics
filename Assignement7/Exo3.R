@@ -30,7 +30,6 @@ getBeta <-function(y,X){
 rmses <- c()
 for(p in perms){
   res <- c()
-  ##get beta
   for(i in 1:n){
     design_X <- data.matrix(df[-i,c(1,p)])
     design_y <- y[-i]
@@ -39,7 +38,6 @@ for(p in perms){
     res <- append(res,pred_err)
   }
   rmses <- append(rmses, sqrt(sum(res)))
-  ##append to rmse
 }
 
 
@@ -57,8 +55,6 @@ worst <- table[(nrow(table)-5):nrow(table),]
 
 ##simple to general,
 ##As seen on exercise 3 doing simple to general we keep columns
-##INTERCEPT YEAR PS INCOME and GASP
-SG_rmse <- table[236,2]
-##For general to simple we keep
-##INTERCEPT INCOME GASP PS
-GS_rmse <- table[82,2]
+##INTERCEPT YEAR PS INCOME and GASP, which correspond to the
+##236th permutation. We find it on the table
+SG_rmse <- table[9,2]
