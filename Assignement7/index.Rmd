@@ -1,0 +1,71 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# function to calculate the F-statistic
+```{r}
+fStatistic <- function(R,q,X,b,e){
+  J=dim(R)[1]
+  K=dim(R)[2]
+  n=dim(X)[1]
+  return(t(R%*%b-q)%*%solve(R%*%solve(t(X)%*%X)%*%t(R))%*%(R%*%b-q)/J/(t(e)%*%e/(n-K)))
+}
+```
+
+#Exercise 1
+
+# recalculating the model from as 3.
+```{r}
+dat <- read.table('./US_Gasoline_Market.csv', header = TRUE, row.names = 1, sep = ",")
+
+
+## Compute per capita consumption and store data
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10])
+message('head(X)')
+head(X)
+
+Y <- 1000000 * mat[, "GASEXP"] / (mat[, "GASP"] * mat[, "POP"])
+Y=as.matrix(Y,ncol=1)
+message('head(Y)')
+head(Y)
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+```
+
+
+# Entering R and q
+```{r}
+R=cbind(as.matrix(replicate(9,0)),diag(9))
+message('R')
+R
+q=as.matrix(replicate(9,0))
+message('q')
+q
+```
+
+
+
+# Computing the F-statistic using our model
+```{r}
+library('stats')
+fStat=fStatistic(R,q,X,b,e)
+message('f-statistic')
+fStat
+message('\np-value')
+1-pf(fStat,9,42)
+
+message('\np-value is less than:')
+1-pf(35,9,42)
+```
+
+# Computing the F-statistic with an r package
+```{r}
+model=lm(Y~1+X[1:52,2]+X[1:52,3]+X[1:52,4]+X[1:52,5]+X[1:52,6]+X[1:52,7]+X[1:52,8]+X[1:52,9]+X[1:52,10])
+summary(model)
+```
+
