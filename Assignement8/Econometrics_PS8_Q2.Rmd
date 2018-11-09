@@ -8,7 +8,8 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-##### (a)
+############################################################ (a) ############################################################
+#############################################################################################################################
 #Download Data and adjust it
 SP <- read.csv("./^GSPC.csv")
 AA <- read.csv("./AAPL.csv")
@@ -25,9 +26,9 @@ n<-l-1
 #Compute returns and excess returns
 R_AA <- c()
 R_SP <- c()
-for(i in 2:l){
-  R_AA <- c(R_AA,(Price[i,3]-Price[i-1,3])/Price[i-1,3])
-  R_SP <- c(R_SP,(Price[i,2]-Price[i-1,2])/Price[i-1,2])
+for(i in 1:n){
+  R_AA <- c(R_AA,(Price[i+1,3]-Price[i,3])/Price[i,3])
+  R_SP <- c(R_SP,(Price[i+1,2]-Price[i,2])/Price[i,2])
 }
 Ex_R_AA <- c()
 Ex_R_SP <- c()
@@ -36,7 +37,8 @@ for(i in 1:n){
   Ex_R_SP[i] <- c(R_SP[i]-FF$RF[i])
 }
 
-##### (b)
+############################################################ (b) ############################################################
+#############################################################################################################################
 # Matrix of Y and X
 Y<-cbind(Ex_R_AA)
 colnames(Y) <- c("")
@@ -48,7 +50,9 @@ BetaHat=solve(t(X)%*%X)%*%t(X)%*%Y
 message("Question b")
 message("Estimated parameters")
 BetaHat
-##### (c)
+
+############################################################ (c) ############################################################
+#############################################################################################################################
 # Find the estimated errors
 M<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
 E<-M%*%Y
@@ -77,6 +81,10 @@ message("Standard Errors of parameters")
 sdB
 message("Interval of confidence")
 Interval
+
+############################################################ (d) ############################################################
+#############################################################################################################################
+plot(E)
 
 ```
 
