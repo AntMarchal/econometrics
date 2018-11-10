@@ -26,6 +26,7 @@ n<-l-1
 #Compute returns and excess returns
 R_AA <- c()
 R_SP <- c()
+
 for(i in 1:n){
   R_AA <- c(R_AA,(Price[i+1,3]-Price[i,3])/Price[i,3])
   R_SP <- c(R_SP,(Price[i+1,2]-Price[i,2])/Price[i,2])
@@ -86,6 +87,38 @@ Interval
 #############################################################################################################################
 plot(E)
 
+############################################################ (e) ############################################################
+#############################################################################################################################
+#Build matrix for Bresuch-Pagan
+#We regress on the vector of residuals g as defined in lecture 7
+SSR <- (t(E)%*%E/n)
+G <- (E**2)/c(SSR) - 1
+Z<-cbind(replicate(n,1),Ex_R_SP,Ex_R_SP**2,FF$SMB[1:(n)],FF$SMB[1:(n)]**2,FF$HML[1:(n)],FF$HML[1:(n)]**2)
+colnames(Z) <- c("Intercept","Market Excess Return","Market Excess Return^2","SMB","SMB^2","HML","HML^2")
+# Beta estimation
+GammaHat<-solve(t(Z)%*%Z)%*%t(Z)%*%G
+GHat <- Z%*%GammaHat
+
+test_stat <- 0.5*t(GHat)%*%GHat
+##Threshold assume for level alpha = 0.05, 6 degrees of freedom
+threshold <- 12.592    
+##Since test_stat > threshold, we reject the hypothesis of homoskedasticity
+############################################################ (f) ############################################################
+#############################################################################################################################
+##We now assume heteroscedasticity and recompute the confidence intervals
+##Compute the estimator of the covariance matrix of betas
+
+White_Cov <- solve(t(X)%*%X)%*%t(X)%*%diag(c(E)**2)%*%X%*%solve(t(X)%*%X)
+
+sdWhite <- cbind(diag(sqrt(White_Cov)))
+
+#compute the confidence interval
+White_Interval=matrix(0L,k,2)
+for (k in 1:k){
+  White_Interval[k,1]= BetaHat[k,1]-t*sqrt(White_Cov[k,k])
+  White_Interval[k,2]= BetaHat[k,1]+t*sqrt(White_Cov[k,k])
+}
+rownames(White_Interval) <- c("Intercept","Market Excess Return","SMB","HML")
 ```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
