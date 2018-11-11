@@ -1,0 +1,105 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# function to calculate the F-statistic
+```{r}
+fStatistic <- function(R,q,X,b,e){
+  J=dim(R)[1]
+  K=dim(R)[2]
+  n=dim(X)[1]
+  return(t(R%*%b-q)%*%solve(R%*%solve(t(X)%*%X)%*%t(R))%*%(R%*%b-q)/J/(t(e)%*%e/(n-K)))
+}
+```
+
+#Exercise 1
+
+# recalculating the model from as 3 including a dummy variable.
+```{r}
+dat <- read.table('./US_Gasoline_Market.csv', header = TRUE, row.names = 1, sep = ",")
+
+
+## Compute per capita consumption and store data
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10],c(replicate(1973-1952,0),replicate(2004-1973,1)))
+message('X[15:25,1:11]')
+X[15:25,1:11]
+
+Y <- 1000000 * mat[, "GASEXP"] / (mat[, "GASP"] * mat[, "POP"])
+Y=as.matrix(Y,ncol=1)
+message('head(Y)')
+head(Y)
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+```
+# performing the T-test:
+```{r}
+s=sqrt(t(e)%*%e/(52-11))
+t=b[11]/sqrt(s^2*((solve(t(X)%*%X))[11,11]))
+message('t-statistic')
+t
+```
+
+
+# performing the equivalent F-test:
+```{r}
+
+R= t(as.matrix(c(0,0,0,0,0,0,0,0,0,0,1)))
+message('R=')
+R
+
+q= 0
+message('q=')
+q
+
+library('stats')
+fstat=fStatistic(R,q,X,b,e)
+message('\nf-Statistic')
+fstat
+message('\nsqrt(f-Statistic)')
+sqrt(fstat)
+
+
+```
+
+
+
+# b) perform an F-test:
+
+```{r}
+R=cbind(diag(10),-diag(10))
+message('R=')
+R
+
+q=as.matrix(replicate(10,0))
+message('\nq=')
+q
+
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10])
+X=rbind(cbind(X[1:21,1:10],matrix(replicate(10*21,0),nrow=21)),
+        cbind(matrix(replicate(10*31,0),nrow=31),  X[22:52,1:10]))
+message('head(X)')
+head(X)
+
+
+
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+
+fstat=fStatistic(R,q,X,b,e)
+message('f-statistic')
+fstat
+```
+
+
+
+
