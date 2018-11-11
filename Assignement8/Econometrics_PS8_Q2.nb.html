@@ -180,16 +180,171 @@ $(document).ready(function () {
 <p>Try executing this chunk by clicking the <em>Run</em> button within the chunk or by placing your cursor inside it and pressing <em>Cmd+Shift+Enter</em>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucG5nKFwiUGxvdDMucG5nXCIsIHdpZHRoID0gNCwgaGVpZ2h0ID0gNCwgdW5pdHMgPSAnaW4nLCByZXMgPSAzMDApXG5wbG90KEUpXG5kZXYub2ZmKClcblxuYGBgIn0= -->
-<pre class="r"><code>png(&quot;Plot3.png&quot;, width = 4, height = 4, units = 'in', res = 300)
-plot(E)
-dev.off()
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChhKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjXG4jRG93bmxvYWQgRGF0YSBhbmQgYWRqdXN0IGl0XG5TUCA8LSByZWFkLmNzdihcIi4vXkdTUEMuY3N2XCIpXG5BQSA8LSByZWFkLmNzdihcIi4vQUFQTC5jc3ZcIilcbkZGIDwtIHJlYWQuY3N2KFwiLi9GQU1BRlJFTkNILmNzdlwiKVxuRkYkTWt0LlJGIDwtIEZGJE1rdC5SRi8xMDBcbkZGJFNNQiA8LSBGRiRTTUIvMTAwXG5GRiRITUwgPC0gRkYkSE1MLzEwMFxuRkYkUkYgPC0gRkYkUkYvMTAwXG5QcmljZSA8LSBTUFssYygxLDYpXVxubmFtZXMoUHJpY2UpWzJdPC1wYXN0ZShcIkFkai5DbG9zZUdTUENcIilcblByaWNlJEFkai5DbG9zZUFBUEwgPC0gQUEkQWRqLkNsb3NlXG5sPC1sZW5ndGgoUHJpY2UkQWRqLkNsb3NlQUFQTClcbm48LWwtMVxuI0NvbXB1dGUgcmV0dXJucyBhbmQgZXhjZXNzIHJldHVybnNcblJfQUEgPC0gYygpXG5SX1NQIDwtIGMoKVxuZm9yKGkgaW4gMTpuKXtcbiAgUl9BQSA8LSBjKFJfQUEsKFByaWNlW2krMSwzXS1QcmljZVtpLDNdKS9QcmljZVtpLDNdKVxuICBSX1NQIDwtIGMoUl9TUCwoUHJpY2VbaSsxLDJdLVByaWNlW2ksMl0pL1ByaWNlW2ksMl0pXG59XG5FeF9SX0FBIDwtIGMoKVxuRXhfUl9TUCA8LSBjKClcbmZvcihpIGluIDE6bil7XG4gIEV4X1JfQUFbaV0gPC0gYyhSX0FBW2ldLUZGJFJGW2ldKVxuICBFeF9SX1NQW2ldIDwtIGMoUl9TUFtpXS1GRiRSRltpXSlcbn1cbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyAoYikgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjXG4jIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuIyBNYXRyaXggb2YgWSBhbmQgWFxuWTwtY2JpbmQoRXhfUl9BQSlcbmNvbG5hbWVzKFkpIDwtIGMoXCJcIilcblg8LWNiaW5kKHJlcGxpY2F0ZShuLDEpLEV4X1JfU1AsRkYkU01CWzE6KG4pXSxGRiRITUxbMToobildKVxuY29sbmFtZXMoWCkgPC0gYyhcIkludGVyY2VwdFwiLFwiTWFya2V0IEV4Y2VzcyBSZXR1cm5cIixcIlNNQlwiLFwiSE1MXCIpXG4jIEJldGEgZXN0aW1hdGlvblxuQmV0YUhhdD1zb2x2ZSh0KFgpJSolWCklKiV0KFgpJSolWVxubWVzc2FnZShcIlF1ZXN0aW9uIGJcIilcbmBgYCJ9 -->
+<pre class="r"><code>############################################################ (a) ############################################################
+#############################################################################################################################
+#Download Data and adjust it
+SP &lt;- read.csv(&quot;./^GSPC.csv&quot;)
+AA &lt;- read.csv(&quot;./AAPL.csv&quot;)
+FF &lt;- read.csv(&quot;./FAMAFRENCH.csv&quot;)
+FF$Mkt.RF &lt;- FF$Mkt.RF/100
+FF$SMB &lt;- FF$SMB/100
+FF$HML &lt;- FF$HML/100
+FF$RF &lt;- FF$RF/100
+Price &lt;- SP[,c(1,6)]
+names(Price)[2]&lt;-paste(&quot;Adj.CloseGSPC&quot;)
+Price$Adj.CloseAAPL &lt;- AA$Adj.Close
+l&lt;-length(Price$Adj.CloseAAPL)
+n&lt;-l-1
+#Compute returns and excess returns
+R_AA &lt;- c()
+R_SP &lt;- c()
+for(i in 1:n){
+  R_AA &lt;- c(R_AA,(Price[i+1,3]-Price[i,3])/Price[i,3])
+  R_SP &lt;- c(R_SP,(Price[i+1,2]-Price[i,2])/Price[i,2])
+}
+Ex_R_AA &lt;- c()
+Ex_R_SP &lt;- c()
+for(i in 1:n){
+  Ex_R_AA[i] &lt;- c(R_AA[i]-FF$RF[i])
+  Ex_R_SP[i] &lt;- c(R_SP[i]-FF$RF[i])
+}
+############################################################ (b) ############################################################
+#############################################################################################################################
+# Matrix of Y and X
+Y&lt;-cbind(Ex_R_AA)
+colnames(Y) &lt;- c(&quot;&quot;)
+X&lt;-cbind(replicate(n,1),Ex_R_SP,FF$SMB[1:(n)],FF$HML[1:(n)])
+colnames(X) &lt;- c(&quot;Intercept&quot;,&quot;Market Excess Return&quot;,&quot;SMB&quot;,&quot;HML&quot;)
+# Beta estimation
+BetaHat=solve(t(X)%*%X)%*%t(X)%*%Y
+message(&quot;Question b&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUXVlc3Rpb24gYlxuIn0= -->
+<pre><code>Question b</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVzc2FnZShcIkVzdGltYXRlZCBwYXJhbWV0ZXJzXCIpXG5gYGAifQ== -->
+<pre class="r"><code>message(&quot;Estimated parameters&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXN0aW1hdGVkIHBhcmFtZXRlcnNcbiJ9 -->
+<pre><code>Estimated parameters</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm91bmQoQmV0YUhhdCwzKVxuYGBgIn0= -->
+<pre class="r"><code>round(BetaHat,3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5JbnRlcmNlcHQgICAgICAgICAgICAgMC4wMjJcbk1hcmtldCBFeGNlc3MgUmV0dXJuICAxLjI5MVxuU01CICAgICAgICAgICAgICAgICAgLTAuMDMxXG5ITUwgICAgICAgICAgICAgICAgICAtMC4wNTJcbiJ9 -->
+<pre><code>                           
+Intercept             0.022
+Market Excess Return  1.291
+SMB                  -0.031
+HML                  -0.052</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChjKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjXG4jIEZpbmQgdGhlIGVzdGltYXRlZCBlcnJvcnNcbk08LWRpYWcobiktWCUqJXNvbHZlKHQoWCklKiVYKSUqJXQoWClcbkU8LU0lKiVZXG5FRTwtdChFKSUqJUVcbiMgbnVtYmVyIG9mIHJlZ3Jlc3NvcnNcbms8LW5jb2woWClcbiMgZXN0aW1hdGVkIGFzeW1wdG90aWNhbCBjb3ZhcmlhbmNlIG1hdHJpeFxuY292QiA8LUVFWzFdLyhuLWspKnNvbHZlKHQoWCklKiVYKVxuIyBlc3RpbWF0ZWQgc3RhbmRhcmQgZXJyb3JzXG5zZEIgPC0gY2JpbmQoc3FydChkaWFnKGNvdkIpKSlcbiNjb21wdXRlIHRoZSBxdWFudGlsZVxuYWxwaGE9MC4wNVxudD1xdCgxLWFscGhhLzIsbi1rKVxuI2NvbXB1dGUgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWxcbkludGVydmFsPW1hdHJpeCgwTCxrLDIpXG5mb3IgKGsgaW4gMTprKXtcbiAgSW50ZXJ2YWxbaywxXT0gQmV0YUhhdFtrLDFdLXQqc2RCW2tdXG4gIEludGVydmFsW2ssMl09IEJldGFIYXRbaywxXSt0KnNkQltrXVxufVxucm93bmFtZXMoSW50ZXJ2YWwpIDwtIGMoXCJJbnRlcmNlcHRcIixcIk1hcmtldCBFeGNlc3MgUmV0dXJuXCIsXCJTTUJcIixcIkhNTFwiKVxubWVzc2FnZShcIlF1ZXN0aW9uIGNcIilcbmBgYCJ9 -->
+<pre class="r"><code>############################################################ (c) ############################################################
+#############################################################################################################################
+# Find the estimated errors
+M&lt;-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
+E&lt;-M%*%Y
+EE&lt;-t(E)%*%E
+# number of regressors
+k&lt;-ncol(X)
+# estimated asymptotical covariance matrix
+covB &lt;-EE[1]/(n-k)*solve(t(X)%*%X)
+# estimated standard errors
+sdB &lt;- cbind(sqrt(diag(covB)))
+#compute the quantile
+alpha=0.05
+t=qt(1-alpha/2,n-k)
+#compute the confidence interval
+Interval=matrix(0L,k,2)
+for (k in 1:k){
+  Interval[k,1]= BetaHat[k,1]-t*sdB[k]
+  Interval[k,2]= BetaHat[k,1]+t*sdB[k]
+}
+rownames(Interval) &lt;- c(&quot;Intercept&quot;,&quot;Market Excess Return&quot;,&quot;SMB&quot;,&quot;HML&quot;)
+message(&quot;Question c&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUXVlc3Rpb24gY1xuIn0= -->
+<pre><code>Question c</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVzc2FnZShcIlN0YW5kYXJkIEVycm9ycyBvZiBwYXJhbWV0ZXJzXCIpXG5gYGAifQ== -->
+<pre class="r"><code>message(&quot;Standard Errors of parameters&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiU3RhbmRhcmQgRXJyb3JzIG9mIHBhcmFtZXRlcnNcbiJ9 -->
+<pre><code>Standard Errors of parameters</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm91bmQoc2RCLDMpXG5gYGAifQ== -->
+<pre class="r"><code>round(sdB,3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgIFssMV1cbkludGVyY2VwdCAgICAgICAgICAgIDAuMDA2XG5NYXJrZXQgRXhjZXNzIFJldHVybiAwLjE1NlxuU01CICAgICAgICAgICAgICAgICAgMC4yMDVcbkhNTCAgICAgICAgICAgICAgICAgIDAuMjIwXG4ifQ== -->
+<pre><code>                      [,1]
+Intercept            0.006
+Market Excess Return 0.156
+SMB                  0.205
+HML                  0.220</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVzc2FnZShcIkludGVydmFsIG9mIGNvbmZpZGVuY2VcIilcbmBgYCJ9 -->
+<pre class="r"><code>message(&quot;Interval of confidence&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiSW50ZXJ2YWwgb2YgY29uZmlkZW5jZVxuIn0= -->
+<pre><code>Interval of confidence</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm91bmQoSW50ZXJ2YWwsMylcbmBgYCJ9 -->
+<pre class="r"><code>round(Interval,3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICBbLDFdICBbLDJdXG5JbnRlcmNlcHQgICAgICAgICAgICAgMC4wMDkgMC4wMzVcbk1hcmtldCBFeGNlc3MgUmV0dXJuICAwLjk4NSAxLjU5OFxuU01CICAgICAgICAgICAgICAgICAgLTAuNDM0IDAuMzcyXG5ITUwgICAgICAgICAgICAgICAgICAtMC40ODQgMC4zODBcbiJ9 -->
+<pre><code>                       [,1]  [,2]
+Intercept             0.009 0.035
+Market Excess Return  0.985 1.598
+SMB                  -0.434 0.372
+HML                  -0.484 0.380</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChkKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjXG5wbmcoXCJFcnJvcnNfb3Zlcl90aW1lLnBuZ1wiLCB3aWR0aCA9IDQsIGhlaWdodCA9IDQsIHVuaXRzID0gJ2luJywgcmVzID0gMzAwKVxucGxvdChFLCBtYWluPVwiRXJyb3JzIG92ZXIgdGltZVwiLCB4bGFiPVwiVGltZVwiLHlsYWI9XCJFc3RpbWF0ZWQgRXJyb3JcIilcbmRldi5vZmYoKVxuYGBgIn0= -->
+<pre class="r"><code>############################################################ (d) ############################################################
+#############################################################################################################################
+png(&quot;Errors_over_time.png&quot;, width = 4, height = 4, units = 'in', res = 300)
+plot(E, main=&quot;Errors over time&quot;, xlab=&quot;Time&quot;,ylab=&quot;Estimated Error&quot;)
+dev.off()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoibnVsbCBkZXZpY2UgXG4gICAgICAgICAgMSBcbiJ9 -->
 <pre><code>null device 
           1 </code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChlKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNcbiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjXG4jQnVpbGQgbWF0cml4IGZvciBCcmVzdWNoLVBhZ2FuXG4jV2UgcmVncmVzcyBvbiB0aGUgdmVjdG9yIG9mIHJlc2lkdWFscyBnIGFzIGRlZmluZWQgaW4gbGVjdHVyZSA3XG5TU1IgPC0gKHQoRSklKiVFL24pXG5HIDwtIChFKioyKS9jKFNTUikgLSAxXG5aPC1jYmluZChyZXBsaWNhdGUobiwxKSxFeF9SX1NQLEV4X1JfU1AqKjIsRkYkU01CWzE6KG4pXSxGRiRTTUJbMToobildKioyLEZGJEhNTFsxOihuKV0sRkYkSE1MWzE6KG4pXSoqMilcbmNvbG5hbWVzKFopIDwtIGMoXCJJbnRlcmNlcHRcIixcIk1hcmtldCBFeGNlc3MgUmV0dXJuXCIsXCJNYXJrZXQgRXhjZXNzIFJldHVybl4yXCIsXCJTTUJcIixcIlNNQl4yXCIsXCJITUxcIixcIkhNTF4yXCIpXG4jIEJldGEgZXN0aW1hdGlvblxuR2FtbWFIYXQ8LXNvbHZlKHQoWiklKiVaKSUqJXQoWiklKiVHXG5HSGF0IDwtIFolKiVHYW1tYUhhdFxudGVzdF9zdGF0IDwtIDAuNSp0KEdIYXQpJSolR0hhdFxuIyNUaHJlc2hvbGQgYXNzdW1lIGZvciBsZXZlbCBhbHBoYSA9IDAuMDUsIDYgZGVncmVlcyBvZiBmcmVlZG9tXG50aHJlc2hvbGQgPC0gMTIuNTkyICAgIFxuIyNTaW5jZSB0ZXN0X3N0YXQgPiB0aHJlc2hvbGQsIHdlIHJlamVjdCB0aGUgaHlwb3RoZXNpcyBvZiBob21vc2tlZGFzdGljaXR5XG4jIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGYpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNcbiMjV2Ugbm93IGFzc3VtZSBoZXRlcm9zY2VkYXN0aWNpdHkgYW5kIHJlY29tcHV0ZSB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbHNcbiMjQ29tcHV0ZSB0aGUgZXN0aW1hdG9yIG9mIHRoZSBjb3ZhcmlhbmNlIG1hdHJpeCBvZiBiZXRhc1xuV2hpdGVfQ292IDwtIHNvbHZlKHQoWCklKiVYKSUqJXQoWCklKiVkaWFnKGMoRSkqKjIpJSolWCUqJXNvbHZlKHQoWCklKiVYKVxuc2RXaGl0ZSA8LSBjYmluZChkaWFnKHNxcnQoV2hpdGVfQ292KSkpXG5gYGAifQ== -->
+<pre class="r"><code>############################################################ (e) ############################################################
+#############################################################################################################################
+#Build matrix for Bresuch-Pagan
+#We regress on the vector of residuals g as defined in lecture 7
+SSR &lt;- (t(E)%*%E/n)
+G &lt;- (E**2)/c(SSR) - 1
+Z&lt;-cbind(replicate(n,1),Ex_R_SP,Ex_R_SP**2,FF$SMB[1:(n)],FF$SMB[1:(n)]**2,FF$HML[1:(n)],FF$HML[1:(n)]**2)
+colnames(Z) &lt;- c(&quot;Intercept&quot;,&quot;Market Excess Return&quot;,&quot;Market Excess Return^2&quot;,&quot;SMB&quot;,&quot;SMB^2&quot;,&quot;HML&quot;,&quot;HML^2&quot;)
+# Beta estimation
+GammaHat&lt;-solve(t(Z)%*%Z)%*%t(Z)%*%G
+GHat &lt;- Z%*%GammaHat
+test_stat &lt;- 0.5*t(GHat)%*%GHat
+##Threshold assume for level alpha = 0.05, 6 degrees of freedom
+threshold &lt;- 12.592    
+##Since test_stat &gt; threshold, we reject the hypothesis of homoskedasticity
+############################################################ (f) ############################################################
+#############################################################################################################################
+##We now assume heteroscedasticity and recompute the confidence intervals
+##Compute the estimator of the covariance matrix of betas
+White_Cov &lt;- solve(t(X)%*%X)%*%t(X)%*%diag(c(E)**2)%*%X%*%solve(t(X)%*%X)
+sdWhite &lt;- cbind(diag(sqrt(White_Cov)))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTmFOcyBwcm9kdWNlZFxuIn0= -->
+<pre><code>NaNs produced</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2NvbXB1dGUgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWxcbldoaXRlX0ludGVydmFsPW1hdHJpeCgwTCxrLDIpXG5mb3IgKGsgaW4gMTprKXtcbiAgV2hpdGVfSW50ZXJ2YWxbaywxXT0gQmV0YUhhdFtrLDFdLXQqc3FydChXaGl0ZV9Db3ZbayxrXSlcbiAgV2hpdGVfSW50ZXJ2YWxbaywyXT0gQmV0YUhhdFtrLDFdK3Qqc3FydChXaGl0ZV9Db3ZbayxrXSlcbn1cbnJvd25hbWVzKFdoaXRlX0ludGVydmFsKSA8LSBjKFwiSW50ZXJjZXB0XCIsXCJNYXJrZXQgRXhjZXNzIFJldHVyblwiLFwiU01CXCIsXCJITUxcIilcbmBgYCJ9 -->
+<pre class="r"><code>#compute the confidence interval
+White_Interval=matrix(0L,k,2)
+for (k in 1:k){
+  White_Interval[k,1]= BetaHat[k,1]-t*sqrt(White_Cov[k,k])
+  White_Interval[k,2]= BetaHat[k,1]+t*sqrt(White_Cov[k,k])
+}
+rownames(White_Interval) &lt;- c(&quot;Intercept&quot;,&quot;Market Excess Return&quot;,&quot;SMB&quot;,&quot;HML&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Add a new chunk by clicking the <em>Insert Chunk</em> button on the toolbar or by pressing <em>Cmd+Option+I</em>.</p>
@@ -197,7 +352,7 @@ dev.off()
 <p>The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike <em>Knit</em>, <em>Preview</em> does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.</p>
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChhKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKI0Rvd25sb2FkIERhdGEgYW5kIGFkanVzdCBpdApTUCA8LSByZWFkLmNzdigiLi9eR1NQQy5jc3YiKQpBQSA8LSByZWFkLmNzdigiLi9BQVBMLmNzdiIpCkZGIDwtIHJlYWQuY3N2KCIuL0ZBTUFGUkVOQ0guY3N2IikKRkYkTWt0LlJGIDwtIEZGJE1rdC5SRi8xMDAKRkYkU01CIDwtIEZGJFNNQi8xMDAKRkYkSE1MIDwtIEZGJEhNTC8xMDAKRkYkUkYgPC0gRkYkUkYvMTAwClByaWNlIDwtIFNQWyxjKDEsNildCm5hbWVzKFByaWNlKVsyXTwtcGFzdGUoIkFkai5DbG9zZUdTUEMiKQpQcmljZSRBZGouQ2xvc2VBQVBMIDwtIEFBJEFkai5DbG9zZQpsPC1sZW5ndGgoUHJpY2UkQWRqLkNsb3NlQUFQTCkKbjwtbC0xCiNDb21wdXRlIHJldHVybnMgYW5kIGV4Y2VzcyByZXR1cm5zClJfQUEgPC0gYygpClJfU1AgPC0gYygpCgpmb3IoaSBpbiAxOm4pewogIFJfQUEgPC0gYyhSX0FBLChQcmljZVtpKzEsM10tUHJpY2VbaSwzXSkvUHJpY2VbaSwzXSkKICBSX1NQIDwtIGMoUl9TUCwoUHJpY2VbaSsxLDJdLVByaWNlW2ksMl0pL1ByaWNlW2ksMl0pCn0KRXhfUl9BQSA8LSBjKCkKRXhfUl9TUCA8LSBjKCkKZm9yKGkgaW4gMTpuKXsKICBFeF9SX0FBW2ldIDwtIGMoUl9BQVtpXS1GRiRSRltpXSkKICBFeF9SX1NQW2ldIDwtIGMoUl9TUFtpXS1GRiRSRltpXSkKfQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChiKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyBNYXRyaXggb2YgWSBhbmQgWApZPC1jYmluZChFeF9SX0FBKQpjb2xuYW1lcyhZKSA8LSBjKCIiKQpYPC1jYmluZChyZXBsaWNhdGUobiwxKSxFeF9SX1NQLEZGJFNNQlsxOihuKV0sRkYkSE1MWzE6KG4pXSkKY29sbmFtZXMoWCkgPC0gYygiSW50ZXJjZXB0IiwiTWFya2V0IEV4Y2VzcyBSZXR1cm4iLCJTTUIiLCJITUwiKQojIEJldGEgZXN0aW1hdGlvbgpCZXRhSGF0PXNvbHZlKHQoWCklKiVYKSUqJXQoWCklKiVZCgptZXNzYWdlKCJRdWVzdGlvbiBiIikKbWVzc2FnZSgiRXN0aW1hdGVkIHBhcmFtZXRlcnMiKQpyb3VuZChCZXRhSGF0LDMpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGMpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIEZpbmQgdGhlIGVzdGltYXRlZCBlcnJvcnMKTTwtZGlhZyhuKS1YJSolc29sdmUodChYKSUqJVgpJSoldChYKQpFPC1NJSolWQpFRTwtdChFKSUqJUUKCiMgbnVtYmVyIG9mIHJlZ3Jlc3NvcnMKazwtbmNvbChYKQojIGVzdGltYXRlZCBhc3ltcHRvdGljYWwgY292YXJpYW5jZSBtYXRyaXgKY292QiA8LUVFWzFdLyhuLWspKnNvbHZlKHQoWCklKiVYKQojIGVzdGltYXRlZCBzdGFuZGFyZCBlcnJvcnMKc2RCIDwtIGNiaW5kKHNxcnQoZGlhZyhjb3ZCKSkpCgojY29tcHV0ZSB0aGUgcXVhbnRpbGUKYWxwaGE9MC4wNQp0PXF0KDEtYWxwaGEvMixuLWspCgojY29tcHV0ZSB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbApJbnRlcnZhbD1tYXRyaXgoMEwsaywyKQpmb3IgKGsgaW4gMTprKXsKICBJbnRlcnZhbFtrLDFdPSBCZXRhSGF0W2ssMV0tdCpzZEJba10KICBJbnRlcnZhbFtrLDJdPSBCZXRhSGF0W2ssMV0rdCpzZEJba10KfQpyb3duYW1lcyhJbnRlcnZhbCkgPC0gYygiSW50ZXJjZXB0IiwiTWFya2V0IEV4Y2VzcyBSZXR1cm4iLCJTTUIiLCJITUwiKQptZXNzYWdlKCJRdWVzdGlvbiBjIikKbWVzc2FnZSgiU3RhbmRhcmQgRXJyb3JzIG9mIHBhcmFtZXRlcnMiKQpyb3VuZChzZEIsMykKbWVzc2FnZSgiSW50ZXJ2YWwgb2YgY29uZmlkZW5jZSIpCnJvdW5kKEludGVydmFsLDMpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGQpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwpwbmcoIlBsb3QzLnBuZyIsIHdpZHRoID0gNCwgaGVpZ2h0ID0gNCwgdW5pdHMgPSAnaW4nLCByZXMgPSAzMDApCnBsb3QoRSkKZGV2Lm9mZigpCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyAoZSkgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiNCdWlsZCBtYXRyaXggZm9yIEJyZXN1Y2gtUGFnYW4KI1dlIHJlZ3Jlc3Mgb24gdGhlIHZlY3RvciBvZiByZXNpZHVhbHMgZyBhcyBkZWZpbmVkIGluIGxlY3R1cmUgNwpTU1IgPC0gKHQoRSklKiVFL24pCkcgPC0gKEUqKjIpL2MoU1NSKSAtIDEKWjwtY2JpbmQocmVwbGljYXRlKG4sMSksRXhfUl9TUCxFeF9SX1NQKioyLEZGJFNNQlsxOihuKV0sRkYkU01CWzE6KG4pXSoqMixGRiRITUxbMToobildLEZGJEhNTFsxOihuKV0qKjIpCmNvbG5hbWVzKFopIDwtIGMoIkludGVyY2VwdCIsIk1hcmtldCBFeGNlc3MgUmV0dXJuIiwiTWFya2V0IEV4Y2VzcyBSZXR1cm5eMiIsIlNNQiIsIlNNQl4yIiwiSE1MIiwiSE1MXjIiKQojIEJldGEgZXN0aW1hdGlvbgpHYW1tYUhhdDwtc29sdmUodChaKSUqJVopJSoldChaKSUqJUcKR0hhdCA8LSBaJSolR2FtbWFIYXQKCnRlc3Rfc3RhdCA8LSAwLjUqdChHSGF0KSUqJUdIYXQKIyNUaHJlc2hvbGQgYXNzdW1lIGZvciBsZXZlbCBhbHBoYSA9IDAuMDUsIDYgZGVncmVlcyBvZiBmcmVlZG9tCnRocmVzaG9sZCA8LSAxMi41OTIgICAgCiMjU2luY2UgdGVzdF9zdGF0ID4gdGhyZXNob2xkLCB3ZSByZWplY3QgdGhlIGh5cG90aGVzaXMgb2YgaG9tb3NrZWRhc3RpY2l0eQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGYpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojI1dlIG5vdyBhc3N1bWUgaGV0ZXJvc2NlZGFzdGljaXR5IGFuZCByZWNvbXB1dGUgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWxzCiMjQ29tcHV0ZSB0aGUgZXN0aW1hdG9yIG9mIHRoZSBjb3ZhcmlhbmNlIG1hdHJpeCBvZiBiZXRhcwoKV2hpdGVfQ292IDwtIHNvbHZlKHQoWCklKiVYKSUqJXQoWCklKiVkaWFnKGMoRSkqKjIpJSolWCUqJXNvbHZlKHQoWCklKiVYKQoKc2RXaGl0ZSA8LSBjYmluZChkaWFnKHNxcnQoV2hpdGVfQ292KSkpCgojY29tcHV0ZSB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbApXaGl0ZV9JbnRlcnZhbD1tYXRyaXgoMEwsaywyKQpmb3IgKGsgaW4gMTprKXsKICBXaGl0ZV9JbnRlcnZhbFtrLDFdPSBCZXRhSGF0W2ssMV0tdCpzcXJ0KFdoaXRlX0NvdltrLGtdKQogIFdoaXRlX0ludGVydmFsW2ssMl09IEJldGFIYXRbaywxXSt0KnNxcnQoV2hpdGVfQ292W2ssa10pCn0Kcm93bmFtZXMoV2hpdGVfSW50ZXJ2YWwpIDwtIGMoIkludGVyY2VwdCIsIk1hcmtldCBFeGNlc3MgUmV0dXJuIiwiU01CIiwiSE1MIikKYGBgCgpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ21kK09wdGlvbitJKi4KCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ21kK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuIAoKVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChhKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKI0Rvd25sb2FkIERhdGEgYW5kIGFkanVzdCBpdApTUCA8LSByZWFkLmNzdigiLi9eR1NQQy5jc3YiKQpBQSA8LSByZWFkLmNzdigiLi9BQVBMLmNzdiIpCkZGIDwtIHJlYWQuY3N2KCIuL0ZBTUFGUkVOQ0guY3N2IikKRkYkTWt0LlJGIDwtIEZGJE1rdC5SRi8xMDAKRkYkU01CIDwtIEZGJFNNQi8xMDAKRkYkSE1MIDwtIEZGJEhNTC8xMDAKRkYkUkYgPC0gRkYkUkYvMTAwClByaWNlIDwtIFNQWyxjKDEsNildCm5hbWVzKFByaWNlKVsyXTwtcGFzdGUoIkFkai5DbG9zZUdTUEMiKQpQcmljZSRBZGouQ2xvc2VBQVBMIDwtIEFBJEFkai5DbG9zZQpsPC1sZW5ndGgoUHJpY2UkQWRqLkNsb3NlQUFQTCkKbjwtbC0xCiNDb21wdXRlIHJldHVybnMgYW5kIGV4Y2VzcyByZXR1cm5zClJfQUEgPC0gYygpClJfU1AgPC0gYygpCgpmb3IoaSBpbiAxOm4pewogIFJfQUEgPC0gYyhSX0FBLChQcmljZVtpKzEsM10tUHJpY2VbaSwzXSkvUHJpY2VbaSwzXSkKICBSX1NQIDwtIGMoUl9TUCwoUHJpY2VbaSsxLDJdLVByaWNlW2ksMl0pL1ByaWNlW2ksMl0pCn0KRXhfUl9BQSA8LSBjKCkKRXhfUl9TUCA8LSBjKCkKZm9yKGkgaW4gMTpuKXsKICBFeF9SX0FBW2ldIDwtIGMoUl9BQVtpXS1GRiRSRltpXSkKICBFeF9SX1NQW2ldIDwtIGMoUl9TUFtpXS1GRiRSRltpXSkKfQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIChiKSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIyBNYXRyaXggb2YgWSBhbmQgWApZPC1jYmluZChFeF9SX0FBKQpjb2xuYW1lcyhZKSA8LSBjKCIiKQpYPC1jYmluZChyZXBsaWNhdGUobiwxKSxFeF9SX1NQLEZGJFNNQlsxOihuKV0sRkYkSE1MWzE6KG4pXSkKY29sbmFtZXMoWCkgPC0gYygiSW50ZXJjZXB0IiwiTWFya2V0IEV4Y2VzcyBSZXR1cm4iLCJTTUIiLCJITUwiKQojIEJldGEgZXN0aW1hdGlvbgpCZXRhSGF0PXNvbHZlKHQoWCklKiVYKSUqJXQoWCklKiVZCgptZXNzYWdlKCJRdWVzdGlvbiBiIikKbWVzc2FnZSgiRXN0aW1hdGVkIHBhcmFtZXRlcnMiKQpyb3VuZChCZXRhSGF0LDMpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGMpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIEZpbmQgdGhlIGVzdGltYXRlZCBlcnJvcnMKTTwtZGlhZyhuKS1YJSolc29sdmUodChYKSUqJVgpJSoldChYKQpFPC1NJSolWQpFRTwtdChFKSUqJUUKCiMgbnVtYmVyIG9mIHJlZ3Jlc3NvcnMKazwtbmNvbChYKQojIGVzdGltYXRlZCBhc3ltcHRvdGljYWwgY292YXJpYW5jZSBtYXRyaXgKY292QiA8LUVFWzFdLyhuLWspKnNvbHZlKHQoWCklKiVYKQojIGVzdGltYXRlZCBzdGFuZGFyZCBlcnJvcnMKc2RCIDwtIGNiaW5kKHNxcnQoZGlhZyhjb3ZCKSkpCgojY29tcHV0ZSB0aGUgcXVhbnRpbGUKYWxwaGE9MC4wNQp0PXF0KDEtYWxwaGEvMixuLWspCgojY29tcHV0ZSB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbApJbnRlcnZhbD1tYXRyaXgoMEwsaywyKQpmb3IgKGsgaW4gMTprKXsKICBJbnRlcnZhbFtrLDFdPSBCZXRhSGF0W2ssMV0tdCpzZEJba10KICBJbnRlcnZhbFtrLDJdPSBCZXRhSGF0W2ssMV0rdCpzZEJba10KfQpyb3duYW1lcyhJbnRlcnZhbCkgPC0gYygiSW50ZXJjZXB0IiwiTWFya2V0IEV4Y2VzcyBSZXR1cm4iLCJTTUIiLCJITUwiKQptZXNzYWdlKCJRdWVzdGlvbiBjIikKbWVzc2FnZSgiU3RhbmRhcmQgRXJyb3JzIG9mIHBhcmFtZXRlcnMiKQpyb3VuZChzZEIsMykKbWVzc2FnZSgiSW50ZXJ2YWwgb2YgY29uZmlkZW5jZSIpCnJvdW5kKEludGVydmFsLDMpCgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGQpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwpwbmcoIkVycm9yc19vdmVyX3RpbWUucG5nIiwgd2lkdGggPSA0LCBoZWlnaHQgPSA0LCB1bml0cyA9ICdpbicsIHJlcyA9IDMwMCkKcGxvdChFLCBtYWluPSJFcnJvcnMgb3ZlciB0aW1lIiwgeGxhYj0iVGltZSIseWxhYj0iRXN0aW1hdGVkIEVycm9yIikKZGV2Lm9mZigpCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyAoZSkgIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiNCdWlsZCBtYXRyaXggZm9yIEJyZXN1Y2gtUGFnYW4KI1dlIHJlZ3Jlc3Mgb24gdGhlIHZlY3RvciBvZiByZXNpZHVhbHMgZyBhcyBkZWZpbmVkIGluIGxlY3R1cmUgNwpTU1IgPC0gKHQoRSklKiVFL24pCkcgPC0gKEUqKjIpL2MoU1NSKSAtIDEKWjwtY2JpbmQocmVwbGljYXRlKG4sMSksRXhfUl9TUCxFeF9SX1NQKioyLEZGJFNNQlsxOihuKV0sRkYkU01CWzE6KG4pXSoqMixGRiRITUxbMToobildLEZGJEhNTFsxOihuKV0qKjIpCmNvbG5hbWVzKFopIDwtIGMoIkludGVyY2VwdCIsIk1hcmtldCBFeGNlc3MgUmV0dXJuIiwiTWFya2V0IEV4Y2VzcyBSZXR1cm5eMiIsIlNNQiIsIlNNQl4yIiwiSE1MIiwiSE1MXjIiKQojIEJldGEgZXN0aW1hdGlvbgpHYW1tYUhhdDwtc29sdmUodChaKSUqJVopJSoldChaKSUqJUcKR0hhdCA8LSBaJSolR2FtbWFIYXQKCnRlc3Rfc3RhdCA8LSAwLjUqdChHSGF0KSUqJUdIYXQKIyNUaHJlc2hvbGQgYXNzdW1lIGZvciBsZXZlbCBhbHBoYSA9IDAuMDUsIDYgZGVncmVlcyBvZiBmcmVlZG9tCnRocmVzaG9sZCA8LSAxMi41OTIgICAgCiMjU2luY2UgdGVzdF9zdGF0ID4gdGhyZXNob2xkLCB3ZSByZWplY3QgdGhlIGh5cG90aGVzaXMgb2YgaG9tb3NrZWRhc3RpY2l0eQojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMgKGYpICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwojI1dlIG5vdyBhc3N1bWUgaGV0ZXJvc2NlZGFzdGljaXR5IGFuZCByZWNvbXB1dGUgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWxzCiMjQ29tcHV0ZSB0aGUgZXN0aW1hdG9yIG9mIHRoZSBjb3ZhcmlhbmNlIG1hdHJpeCBvZiBiZXRhcwoKV2hpdGVfQ292IDwtIHNvbHZlKHQoWCklKiVYKSUqJXQoWCklKiVkaWFnKGMoRSkqKjIpJSolWCUqJXNvbHZlKHQoWCklKiVYKQoKc2RXaGl0ZSA8LSBjYmluZChkaWFnKHNxcnQoV2hpdGVfQ292KSkpCgojY29tcHV0ZSB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbApXaGl0ZV9JbnRlcnZhbD1tYXRyaXgoMEwsaywyKQpmb3IgKGsgaW4gMTprKXsKICBXaGl0ZV9JbnRlcnZhbFtrLDFdPSBCZXRhSGF0W2ssMV0tdCpzcXJ0KFdoaXRlX0NvdltrLGtdKQogIFdoaXRlX0ludGVydmFsW2ssMl09IEJldGFIYXRbaywxXSt0KnNxcnQoV2hpdGVfQ292W2ssa10pCn0Kcm93bmFtZXMoV2hpdGVfSW50ZXJ2YWwpIDwtIGMoIkludGVyY2VwdCIsIk1hcmtldCBFeGNlc3MgUmV0dXJuIiwiU01CIiwiSE1MIikKYGBgCgpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ21kK09wdGlvbitJKi4KCldoZW4geW91IHNhdmUgdGhlIG5vdGVib29rLCBhbiBIVE1MIGZpbGUgY29udGFpbmluZyB0aGUgY29kZSBhbmQgb3V0cHV0IHdpbGwgYmUgc2F2ZWQgYWxvbmdzaWRlIGl0IChjbGljayB0aGUgKlByZXZpZXcqIGJ1dHRvbiBvciBwcmVzcyAqQ21kK1NoaWZ0K0sqIHRvIHByZXZpZXcgdGhlIEhUTUwgZmlsZSkuIAoKVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLgoK</div>
 
 
 
