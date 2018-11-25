@@ -1,0 +1,220 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+# function to calculate the F-statistic
+```{r}
+fStatistic <- function(R,q,X,b,e){
+  J=dim(R)[1]
+  K=dim(R)[2]
+  n=dim(X)[1]
+  return(t(R%*%b-q)%*%solve(R%*%solve(t(X)%*%X)%*%t(R))%*%(R%*%b-q)/J/(t(e)%*%e/(n-K)))
+}
+```
+
+#Exercise 1
+# recalculating the model from as 3 including a dummy variable.
+```{r}
+dat <- read.table('./US_Gasoline_Market.csv', header = TRUE, row.names = 1, sep = ",")
+
+
+## Compute per capita consumption and store data
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10],c(replicate(1973-1952,0),replicate(2004-1973,1)))
+message('X[15:25,1:11]')
+X[15:25,1:11]
+
+Y <- 1000000 * mat[, "GASEXP"] / (mat[, "GASP"] * mat[, "POP"])
+Y=as.matrix(Y,ncol=1)
+message('head(Y)')
+head(Y)
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+```
+# performing the T-test:
+```{r}
+s=sqrt(t(e)%*%e/(52-11))
+t=b[11]/sqrt(s^2*((solve(t(X)%*%X))[11,11]))
+message('t-statistic')
+t
+```
+# performing the equivalent F-test:
+```{r}
+
+R= t(as.matrix(c(0,0,0,0,0,0,0,0,0,0,1)))
+message('R=')
+R
+
+q= 0
+message('q=')
+q
+
+library('stats')
+fstat=fStatistic(R,q,X,b,e)
+message('\nf-Statistic')
+fstat
+message('\nsqrt(f-Statistic)')
+sqrt(fstat)
+
+
+```
+# b) perform an F-test:
+```{r}
+R=cbind(diag(10),-diag(10))
+message('R=')
+R
+
+q=as.matrix(replicate(10,0))
+message('\nq=')
+q
+
+mat <- as.matrix(dat)
+X=cbind(as.matrix(replicate(52,1)),1:52,mat[1:52,3:10])
+X=rbind(cbind(X[1:21,1:10],matrix(replicate(10*21,0),nrow=21)),
+        cbind(matrix(replicate(10*31,0),nrow=31),  X[22:52,1:10]))
+message('head(X)')
+head(X)
+
+
+
+message('b')
+b=solve(t(X)%*%X)%*%t(X)%*%Y
+b
+e=Y-X%*%b
+message('head(e)')
+head(e)
+
+fstat=fStatistic(R,q,X,b,e)
+message('f-statistic')
+fstat
+```
+#Exercise 2
+```{r}
+############################################################ (a) ############################################################
+#############################################################################################################################
+#Download Data and adjust it
+SP <- read.csv("./^GSPC.csv")
+AA <- read.csv("./AAPL.csv")
+FF <- read.csv("./FAMAFRENCH.csv")
+FF$Mkt.RF <- FF$Mkt.RF/100
+FF$SMB <- FF$SMB/100
+FF$HML <- FF$HML/100
+FF$RF <- FF$RF/100
+Price <- SP[,c(1,6)]
+names(Price)[2]<-paste("Adj.CloseGSPC")
+Price$Adj.CloseAAPL <- AA$Adj.Close
+l<-length(Price$Adj.CloseAAPL)
+n<-l-1
+#Compute returns and excess returns
+R_AA <- c()
+R_SP <- c()
+
+for(i in 1:n){
+  R_AA <- c(R_AA,(Price[i+1,3]-Price[i,3])/Price[i,3])
+  R_SP <- c(R_SP,(Price[i+1,2]-Price[i,2])/Price[i,2])
+}
+Ex_R_AA <- c()
+Ex_R_SP <- c()
+for(i in 1:n){
+  Ex_R_AA[i] <- c(R_AA[i]-FF$RF[i])
+  Ex_R_SP[i] <- c(R_SP[i]-FF$RF[i])
+}
+
+############################################################ (b) ############################################################
+#############################################################################################################################
+# Matrix of Y and X
+Y<-cbind(Ex_R_AA)
+colnames(Y) <- c("")
+X<-cbind(replicate(n,1),Ex_R_SP,FF$SMB[1:(n)],FF$HML[1:(n)])
+colnames(X) <- c("Intercept","Market Excess Return","SMB","HML")
+# Beta estimation
+BetaHat=solve(t(X)%*%X)%*%t(X)%*%Y
+
+message("Question b")
+message("Estimated parameters")
+round(BetaHat,3)
+
+############################################################ (c) ############################################################
+#############################################################################################################################
+# Find the estimated errors
+M<-diag(n)-X%*%solve(t(X)%*%X)%*%t(X)
+E<-M%*%Y
+EE<-t(E)%*%E
+
+# number of regressors
+k<-ncol(X)
+# estimated asymptotical covariance matrix
+covB <-EE[1]/(n-k)*solve(t(X)%*%X)
+# estimated standard errors
+sdB <- cbind(sqrt(diag(covB)))
+
+#compute the quantile
+alpha=0.05
+t=qt(1-alpha/2,n-k)
+
+#compute the confidence interval
+Interval=matrix(0L,k,2)
+for (k in 1:k){
+  Interval[k,1]= BetaHat[k,1]-t*sdB[k]
+  Interval[k,2]= BetaHat[k,1]+t*sdB[k]
+}
+rownames(Interval) <- c("Intercept","Market Excess Return","SMB","HML")
+message("Question c")
+message("Standard Errors of parameters")
+round(sdB,3)
+message("Interval of confidence")
+round(Interval,3)
+
+############################################################ (d) ############################################################
+#############################################################################################################################
+png("Errors_over_time.png", width = 4, height = 4, units = 'in', res = 300)
+plot(E, main="Errors over time", xlab="Time",ylab="Estimated Error")
+dev.off()
+############################################################ (e) ############################################################
+#############################################################################################################################
+#Build matrix for Bresuch-Pagan
+#We regress on the vector of residuals g as defined in lecture 7
+SSR <- (t(E)%*%E/n)
+G <- (E**2)/c(SSR) - 1
+Z<-cbind(replicate(n,1),Ex_R_SP,Ex_R_SP**2,FF$SMB[1:(n)],FF$SMB[1:(n)]**2,FF$HML[1:(n)],FF$HML[1:(n)]**2)
+colnames(Z) <- c("Intercept","Market Excess Return","Market Excess Return^2","SMB","SMB^2","HML","HML^2")
+# Beta estimation
+GammaHat<-solve(t(Z)%*%Z)%*%t(Z)%*%G
+GHat <- Z%*%GammaHat
+
+test_stat <- 0.5*t(GHat)%*%GHat
+##Threshold assume for level alpha = 0.05, 6 degrees of freedom
+threshold <- 12.592    
+##Since test_stat > threshold, we reject the hypothesis of homoskedasticity
+############################################################ (f) ############################################################
+#############################################################################################################################
+##We now assume heteroscedasticity and recompute the confidence intervals
+##Compute the estimator of the covariance matrix of betas
+
+White_Cov <- solve(t(X)%*%X)%*%t(X)%*%diag(c(E)**2)%*%X%*%solve(t(X)%*%X)
+
+sdWhite <- cbind(diag(sqrt(White_Cov)))
+
+#compute the confidence interval
+White_Interval=matrix(0L,k,2)
+for (k in 1:k){
+  White_Interval[k,1]= BetaHat[k,1]-t*sqrt(White_Cov[k,k])
+  White_Interval[k,2]= BetaHat[k,1]+t*sqrt(White_Cov[k,k])
+}
+rownames(White_Interval) <- c("Intercept","Market Excess Return","SMB","HML")
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
