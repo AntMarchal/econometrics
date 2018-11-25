@@ -95,7 +95,7 @@ eps_new <- cbind(U+V)
 Y_new <- X_new%*%beta+ eps_new
 #for question c)
 eta_new <- cbind(rnorm(N2,mean=0,sd=1))
-Z1_new<-cbind(sqrt(0.7)*W+sqrt(0.3)*eta)
+Z1_new<-cbind(sqrt(0.7)*W+sqrt(0.3)*eta_new)
 Z_new<-cbind(X0_new,Z1_new,X2_new) #X0 and X1 are not endogenous and can be used as instrumental variables and we have K=L
 
 
