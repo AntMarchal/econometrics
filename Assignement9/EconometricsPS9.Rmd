@@ -75,6 +75,11 @@ betahat0<-betahat[1,]
 betahat1<-betahat[2,]
 betahat2<-betahat[3,]
 meanbetahat<-rbind(mean(betahat0),mean(betahat1),mean(betahat2))
+meanbetahat<-rbind(mean(betahat0),mean(betahat1),mean(betahat2))
+message("Real Betas:")
+beta
+message("Average OLS estimation:")
+round(meanbetahat,3)
 ```
 
 #Question2.c)
@@ -204,7 +209,9 @@ meanbetahat750<-rbind(mean(betahat0750),mean(betahat1750),mean(betahat2750))
 ################################Entire sample
 
 betahat_new<-solve(t(X_new)%*%X_new)%*%t(X_new)%*%Y_new
-
+meanbetahat_total<-cbind(meanbetahat100,meanbetahat200,meanbetahat500,meanbetahat750,betahat_new)
+message("Average OLS estimation by subsample:")
+round(meanbetahat_total,3)
 
 
 ```
@@ -234,6 +241,9 @@ meanbetaIV750<-rbind(mean(betaIV0750),mean(betaIV1750),mean(betaIV2750))
 #all sample
 betaIV_new<-solve(t(Z_new)%*%X_new)%*%t(Z_new)%*%Y_new
 
+meanbetahat_IV<-cbind(meanbetaIV100,meanbetaIV200,meanbetaIV500,meanbetaIV750,betaIV_new)
+message("IV estimation by subsample:")
+round(meanbetahat_IV,3)
 ```
 #Question2.e)
 ```{r}
