@@ -1,0 +1,82 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+Y=exp(rnorm(200,1.2,sqrt(0.8)))
+message('Y=')
+head(Y)
+```
+
+# Exactly identified case:
+```{r}
+mu= 2*log(mean(Y))-0.5*log(mean(Y*Y))
+message('mu=')
+mu
+message('sigma2=')
+sigma2=log(mean(Y*Y))-2*log(mean(Y))
+sigma2
+```
+
+# Overidentified case:
+```{r}
+m_bar=function(params){
+  mu=params[1]
+  sigma2=params[2]
+  m1=mean(Y)-exp(mu+sigma2/2)
+  m2=exp(2*mu+2*sigma2)-mean(Y*Y)
+  m3= mean(1/Y) - exp( sigma2/2 - mu)
+  return(c(m1,m2,m3))
+}
+norm2=function(params){
+  m1=m_bar(params)
+  return(m1%*%m1)
+  }
+message('m of real params')
+m_bar(c(1.2,0.8))
+I_estimates=nlm(norm2, c(1.2, 0.8))$estimate
+message('\nfirst optimization of params: mu sigma2')
+I_estimates
+
+
+
+m=function(params,i){
+  mu=params[1]
+  sigma2=params[2]
+  m1=Y[i]-exp(mu+sigma2/2)
+  m2=exp(2*mu+2*sigma2)-Y[i]*Y[i]
+  m3= mean(1/Y[i]) - exp( sigma2/2 - mu)
+  return(c(m1,m2,m3))
+}
+
+phiHat=function(params){
+  res=matrix( rep( 0, len=9), nrow = 3)
+  for(i in 1:200){
+    m2=m(params,i)
+    res=res+m2%*%t(m2)
+  }
+  res=res/200
+  return(res)
+}
+
+
+message('phiHat')
+phiHat1=phiHat(params)
+phiHat1
+message('W')
+W=solve(phiHat1)
+W
+
+criterionFuntion=function(params){
+  m_bar1=m_bar(params)
+  return(t(m_bar1)%*%W%*%m_bar1)
+}
+
+W_estimates=nlm(criterionFuntion,c( 1.2, 0.8))$estimate
+message('W estimates')
+W_estimates
+```
+
