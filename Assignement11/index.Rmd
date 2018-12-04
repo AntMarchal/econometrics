@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# get the data
+```{r}
+df=read.csv('./Failure-rates.csv',header = F)
+x=as.matrix(df)
+head(x)
+```
+
+
+
+```{r}
+
+n=100
+# opposite of the function to be maximized
+opposite_lc=function(beta){
+  sum=0
+  for (xi in x){
+    sum=sum+xi^beta
+  }
+  return(-(n * log(n/sum) + n * log(beta) + (beta-1) * sum(log(x)) - n))
+}
+```
+
+
+#plot
+```{r}
+png(filename="./plot.png")
+plot(seq(1e-10,10,0.01),
+     -opposite_lc(seq(1e-10,10,0.01)),
+     type='l',
+     xlab='beta',
+     ylab='concentrated log-likelihood',
+     main='plot of the concentrated log-likelihood vs. beta'
+     )
+dev.off()
+```
+
+
+```{r}
+argmax=nlm(opposite_lc, 1)$estimate # We minimize the opposite of the function to maximize
+message('argmaxBeta')
+argmax
+
+message('argmaxAlpha')
+sum=0
+for (xi in x){
+  sum=sum+xi^argmax
+}
+n/sum
+```
+
+
+
+
+
