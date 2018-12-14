@@ -11,6 +11,97 @@ output:
 # Exercise 3
 # Question d)
 ```{r}
+# R <- 1000 # number of samples
+# n <- 100 # number of observations by sample
+# mu <- 1
+# sigma2 <- 4
+# X <- c()
+# set.seed(1)
+# for (i in 1:R){
+# X_i <- cbind(rnorm(n,mean=mu,sd=sigma2^0.5))
+# X <- cbind(X,X_i)
+# }
+# mu_hat<- c()
+# 
+# for (i in 1:R){
+# mu_hat_i <- mean(X[,i])
+# mu_hat <- cbind(mu_hat,mu_hat_i)
+# }
+# 
+# sigma2_hat<-c()
+# for (i in 1:R){
+#   for (j in 1:n){
+# sigma2_hat_i <- mean((X[j,i]-mu_hat_i)^2)
+#   }
+#   sigma2_hat <- cbind(sigma2_hat,sigma2_hat_i)
+# }
+# 
+# mean_mu_hat<-mean(mu_hat)
+# mean_sigma2_hat<-mean(sigma2_hat)
+# 
+# ########################### Asymptotic Variance #############################
+# ###### quantiles
+# t<-qt(0.975,n)
+# ########################### 1st method #############################
+# ###### variance of mu
+# var_mu_1 <- mean(sigma2_hat)/n
+# ###### variance of sigma
+# var_sigma2_1 <- 2*mean(sigma2_hat)^2/n
+# 
+# ###### Confidence Interval
+# CI_1<- cbind(rbind(mean_mu_hat-t*var_mu_1^0.5,mean_sigma2_hat-t*var_sigma2_1^0.5),rbind(mean_mu_hat+t*var_mu_1^0.5,mean_sigma2_hat+t*var_sigma2_1^0.5))
+# round(CI_1,3)
+# 
+# ########################### 2nd method #############################
+# ###### variance of mu
+# var_mu_2 <- mean_sigma2_hat/n
+# ###### variance of sigma
+# l_hat<-c()
+# for (i in 1:R){
+#   for (j in 1:n){
+#   l_hat_i <- -n/2*sigma2_hat[i]^2+1/sigma2_hat[i]^2*((X[j,i]-mu_hat_i)^2)
+#   }
+#   l_hat <- cbind(l_hat,l_hat_i)
+# }
+# var_sigma2_2 <- mean(l_hat^(-1))
+# 
+# ###### Confidence Interval
+# CI_2<- cbind( rbind( mean_mu_hat-t*var_mu_2^0.5,mean_sigma2_hat-t*var_sigma2_2^0.5),rbind(mean_mu_hat+t*var_mu_2^0.5,mean_sigma2_hat+t*var_sigma2_2^0.5))
+# round(CI_2,3)
+# # for (i in 1:R){
+# # l_sigma2_j <- -n/2*sigma2_hat[,i]^2+1/(sigma2_hat[,i]^3)*(n*mean((W[,i]-mu_hat[,i])^2))
+# # l_sigma2_hat <- cbind(l_sigma2_hat,l_sigma2_i)
+# # }
+# ########################### 3rd method #############################
+# ###### variance of mu
+# g_mu_hat<-c()
+# for (i in 1:R){
+#   for (j in 1:n){
+# g_mu_i <- 1/sigma2_hat[i]*(X[j,i]-mu_hat[i])
+#   }
+#   g_mu_hat <- cbind(g_mu_hat,g_mu_i)
+# }
+# g_mu_hat2<-g_mu_hat^2
+# g_mu_hat2_inv<-g_mu_hat2^(-1)
+# var_mu_3 <- mean(g_mu_hat2_inv)
+# ###### variance of sigma
+# g_sigma2_hat<-c()
+# for (i in 1:R){
+#   for (j in 1:n){
+# g_sigma2_i <- -n/2*sigma2_hat[,i]+1/(2*sigma2_hat[,i]^2)*((X[j,i]-mu_hat[,i])^2)
+#   }
+#   g_sigma2_hat <- cbind(g_sigma2_hat,g_sigma2_i)
+# }
+# g_sigma2_hat2<-g_sigma2_hat^2
+# g_sigma2_hat2_inv<-g_sigma2_hat2^(-1)
+# var_sigma2_3 <- mean(g_sigma2_hat2_inv)
+# ###### Confidence Interval
+# CI_3<- cbind( rbind( mean_mu_hat-t*var_mu_3^0.5,mean_sigma2_hat-t*var_sigma2_3^0.5),rbind(mean_mu_hat+t*var_mu_3^0.5,mean_sigma2_hat+t*var_sigma2_3^0.5))
+# round(CI_3,3)
+
+```
+
+```{r}
 R <- 1000 # number of samples
 n <- 100 # number of observations by sample
 mu <- 1
@@ -43,69 +134,6 @@ mean_sigma2_hat<-mean(sigma2_hat)
 ###### quantiles
 t<-qt(0.975,n)
 ########################### 1st method #############################
-###### variance of mu
-var_mu_1 <- mean(sigma2_hat)/n
-###### variance of sigma
-var_sigma2_1 <- 2*mean(sigma2_hat)^2/n
-
-###### Confidence Interval
-CI_1<- cbind(rbind(mean_mu_hat-t*var_mu_1^0.5,mean_sigma2_hat-t*var_sigma2_1^0.5),rbind(mean_mu_hat+t*var_mu_1^0.5,mean_sigma2_hat+t*var_sigma2_1^0.5))
-round(CI_1,3)
-
-########################### 2nd method #############################
-###### variance of mu
-var_mu_2 <- mean_sigma2_hat/n
-###### variance of sigma
-l_hat<-c()
-for (i in 1:R){
-  for (j in 1:n){
-  l_hat_i <- -n/2*sigma2_hat[i]^2+1/sigma2_hat[i]^2*((X[j,i]-mu_hat_i)^2)
-  }
-  l_hat <- cbind(l_hat,l_hat_i)
-}
-var_sigma2_2 <- mean(l_hat^(-1))
-
-###### Confidence Interval
-CI_2<- cbind( rbind( mean_mu_hat-t*var_mu_2^0.5,mean_sigma2_hat-t*var_sigma2_2^0.5),rbind(mean_mu_hat+t*var_mu_2^0.5,mean_sigma2_hat+t*var_sigma2_2^0.5))
-round(CI_2,3)
-# for (i in 1:R){
-# l_sigma2_j <- -n/2*sigma2_hat[,i]^2+1/(sigma2_hat[,i]^3)*(n*mean((W[,i]-mu_hat[,i])^2))
-# l_sigma2_hat <- cbind(l_sigma2_hat,l_sigma2_i)
-# }
-########################### 3rd method #############################
-###### variance of mu
-g_mu_hat<-c()
-for (i in 1:R){
-  for (j in 1:n){
-g_mu_i <- 1/sigma2_hat[i]*(X[j,i]-mu_hat[i])
-  }
-  g_mu_hat <- cbind(g_mu_hat,g_mu_i)
-}
-g_mu_hat2<-g_mu_hat^2
-g_mu_hat2_inv<-g_mu_hat2^(-1)
-var_mu_3 <- mean(g_mu_hat2_inv)
-###### variance of sigma
-g_sigma2_hat<-c()
-for (i in 1:R){
-  for (j in 1:n){
-g_sigma2_i <- -n/2*sigma2_hat[,i]+1/(2*sigma2_hat[,i]^2)*((X[j,i]-mu_hat[,i])^2)
-  }
-  g_sigma2_hat <- cbind(g_sigma2_hat,g_sigma2_i)
-}
-g_sigma2_hat2<-g_sigma2_hat^2
-g_sigma2_hat2_inv<-g_sigma2_hat2^(-1)
-var_sigma2_3 <- mean(g_sigma2_hat2_inv)
-###### Confidence Interval
-CI_3<- cbind( rbind( mean_mu_hat-t*var_mu_3^0.5,mean_sigma2_hat-t*var_sigma2_3^0.5),rbind(mean_mu_hat+t*var_mu_3^0.5,mean_sigma2_hat+t*var_sigma2_3^0.5))
-round(CI_3,3)
-
-```
-
-```{r}
-########################### Asymptotic Variance #############################
-###### quantiles
-t<-qt(0.975,n)
-########################### 1st method #############################
 ###### Confidence Interval for mu
 CI_mu_1<-cbind(rep_len(0,R),rep_len(0,R))
 for(i in 1:R){
@@ -131,62 +159,69 @@ CI_mu_2[i,2]<-mu_hat[i]+t*(sigma2_hat[i]/n)^0.5
 colMeans(CI_mu_2)
 ###### Confidence Interval for sigma2
 H <-matrix(0, nrow = 2, ncol = 2)
+var_2nd<-matrix(0, nrow = 2, ncol = 1000)
 for(i in 1:R){
   H[1,1]<- n/sigma2_hat[i]
-  H[1,2]<- 1/sigma2_hat[i]*n*mean(X[,i]-mu_hat[i])
-  H[2,1]<-H[1,2]
-  H[2,2]<-
+  H[1,2]<- -1/(sigma2_hat[i]^2)*n*mean(X[,i]-mu_hat[i])
+  H[2,1]<- H[1,2]
+  H[2,2]<- (n/(2*mean((X[,i]-mu_hat[i])^4)) - n*mean((X[,i]-mu_hat[i])^2)/(mean((X[,i]-mu_hat[i])^6)))
+  H <- solve(H)
+  var_2nd[1,i]<-H[1,1]
+  var_2nd[2,i]<-H[2,2]
 }
-for(i in 1:R){
-CI_sigma2_2[i,1]<-sigma2_hat[i]-t* ( -(n/sigma2_hat[i]^2) + (1/(sigma2_hat[i]^3))*n*sigma2_hat[i])^(-0.5)
-CI_sigma2_2[i,2]<-sigma2_hat[i]+t* ( -(n/sigma2_hat[i]^2) + (1/(sigma2_hat[i]^3))*n*sigma2_hat[i])^(-0.5)
-}
-
 CI_sigma2_2<-cbind(rep_len(0,R),rep_len(0,R))
 for(i in 1:R){
-CI_sigma2_2[i,1]<-sigma2_hat[i]-t* ( -(n/sigma2_hat[i]^2) + (1/(sigma2_hat[i]^3))*n*sigma2_hat[i])^(-0.5)
-CI_sigma2_2[i,2]<-sigma2_hat[i]+t* ( -(n/sigma2_hat[i]^2) + (1/(sigma2_hat[i]^3))*n*sigma2_hat[i])^(-0.5)
-  }
+CI_sigma2_2[i,1]<-sigma2_hat[i]-t*var_2nd[2,i]^(-0.5)
+CI_sigma2_2[i,2]<-sigma2_hat[i]+t*var_2nd[2,i]^(-0.5)
+}
 colMeans(CI_sigma2_2)
 
-L<- n/(2*sigma2_hat[2]^2)
-L2<-1/(sigma2_hat[2]^3)
-L3<-t(cbind(X[,2]-mu_hat[2]))%*%(cbind(X[,2]-mu_hat[2]))
-L
-L2
-L3
-L4<- (-L+L2*L3)^-0.5
-L4
-# for (i in 1:R){
-# l_sigma2_j <- -n/2*sigma2_hat[,i]^2+1/(sigma2_hat[,i]^3)*(n*mean((W[,i]-mu_hat[,i])^2))
-# l_sigma2_hat <- cbind(l_sigma2_hat,l_sigma2_i)
-# }
 ########################### 3rd method #############################
+# g <- matrix(0, nrow = 2, ncol = 1)
+# var_3rd<-matrix(0, nrow = 2, ncol = 1000)
+# for(i in 1:R){
+#   g[1,1]<- (1/sigma2_hat[i])*n*mean(X[,i]-mu_hat[i])
+#   g[2,1]<- (n/(2*sigma2_hat[i])) - n*sigma2_hat[i]/(2*sigma2_hat[i]^2)
+#   matrix_g<-solve(g%*%t(g))
+#   var_3rd[2,i]<-matrix_g[1,1]
+#   var_3rd[2,i]<-matrix_g[2,2]
+#   g <- cbind((1/mean(X[,i]-mu_hat[i])^2)*n*mean(X[,i]-mu_hat[i]),(n/(2*mean((X[,i]-mu_hat[i])^2))-n*mean((X[,i]-mu_hat[i])^2)/(2*mean((X[,i]-mu_hat[i])^4))))
+# }
+
+###### variance of mu
 g_mu_hat<-c()
 for (i in 1:R){
   for (j in 1:n){
-g_mu_i <- 1/sigma2_hat[,i]*(W[j,i]-mu_hat[,i])
+g_mu_i <- 1/sigma2_hat[i]*(X[j,i]-mu_hat[i])
   }
   g_mu_hat <- cbind(g_mu_hat,g_mu_i)
 }
 g_mu_hat2<-g_mu_hat^2
 g_mu_hat2_inv<-g_mu_hat2^(-1)
-var_mu_3 <- mean(g_mu_hat2_inv)
 
+CI_mu_3<-cbind(rep_len(0,R),rep_len(0,R))
+for(i in 1:R){
+CI_mu_3[i,1]<-mu_hat[i]-t*g_mu_hat2_inv[i]^0.5
+CI_mu_3[i,2]<-mu_hat[i]+t*g_mu_hat2_inv[i]^0.5
+  }
+colMeans(CI_mu_3)
+
+###### variance of sigma
 g_sigma2_hat<-c()
 for (i in 1:R){
   for (j in 1:n){
-g_sigma2_i <- -n/2*sigma2_hat[,i]+1/(2*sigma2_hat[,i]^2)*((W[j,i]-mu_hat[,i])^2)
+g_sigma2_i <- -n/2*sigma2_hat[,i]+1/(2*sigma2_hat[,i]^2)*((X[j,i]-mu_hat[,i])^2)
   }
   g_sigma2_hat <- cbind(g_sigma2_hat,g_sigma2_i)
 }
 g_sigma2_hat2<-g_sigma2_hat^2
 g_sigma2_hat2_inv<-g_sigma2_hat2^(-1)
-var_sigma2_3 <- mean(g_sigma2_hat2_inv)
 
+CI_sigma2_3<-cbind(rep_len(0,R),rep_len(0,R))
+for(i in 1:R){
+CI_sigma2_3[i,1]<-sigma2_hat[i]-t*g_sigma2_hat2_inv[i]^0.5
+CI_sigma2_3[i,2]<-sigma2_hat[i]+t*g_sigma2_hat2_inv[i]^0.5
+}
+colMeans(CI_sigma2_3)
 
-var_sigma2_3 <- 2*mean_sigma2_hat^2/n
-t<-qt(0.975,n)
-CI_2<- cbind( rbind( mean_mu_hat-t*var_mu_2^0.5,mean_sigma2_hat-t*var_sigma2_2^0.5),rbind(mean_mu_hat+t*var_mu_2^0.5,mean_sigma2_hat+t*var_sigma2_2^0.5))
-CI_2
 ```
